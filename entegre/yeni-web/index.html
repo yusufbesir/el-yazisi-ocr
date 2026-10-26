@@ -1,0 +1,421 @@
+<!doctype html>
+<!-- yazan: [Claude#RKxwbX] · [İP:El yazısı OCR#RKxwbX] · 2026-10-25 · Yusuf'a ait, eğitim amaçlı; değiştirme: yalnız bu iş parçacığı | Orijinal: index.orijinal.html | Fotoğraftan okuma artık elyazisi/ klasöründeki ElYazisiOCR ile (uygulama.js). -->
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' blob:; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' blob: data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Sponsorluk Ürün Teslim Tutanağı</title>
+<style>
+  /* Tasarım: Minimalizm / İsviçre stili (ui-ux-pro-max). Sistem yazı tipi, gölge ve animasyon yok: eski bilgisayarda da hızlı çalışır. */
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.5 "Segoe UI", Tahoma, Arial, Helvetica, sans-serif; color: #0f172a; background: #f1f5f9; }
+  button, input, select { font-family: inherit; }
+  h1 { font-size: 22px; margin: 0; font-weight: 600; }
+  h2 { font-size: 18px; margin: 0 0 12px; font-weight: 600; }
+  p { margin: 0 0 8px; }
+
+  .kabuk { display: flex; min-height: 100vh; }
+  #satirTablosu:not(.iade) .iadeSutun { display: none; }
+  .yan { position: sticky; top: 0; align-self: flex-start; height: 100vh; overflow: auto; width: 220px; flex: none; background: #0f172a; color: #e2e8f0; display: flex; flex-direction: column; padding: 16px 12px; }
+  .marka { display: flex; align-items: center; gap: 10px; padding: 4px 8px 16px; font-size: 17px; font-weight: 600; color: #fff; }
+  .marka svg { width: 28px; height: 28px; flex: none; }
+  .gezin { display: flex; flex-direction: column; gap: 4px; }
+  .gezin button { display: flex; align-items: center; gap: 10px; width: 100%; height: 44px; padding: 0 12px; border: 0; border-radius: 6px; background: transparent; color: #cbd5e1; font-size: 16px; text-align: left; cursor: pointer; }
+  .gezin button:hover { background: #1e293b; color: #fff; }
+  .gezin button[aria-current="page"] { background: #0f766e; color: #fff; font-weight: 600; }
+  .gezin svg { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .yanAlt { margin-top: auto; padding-top: 16px; }
+  .rozet { display: block; padding: 8px 10px; border-radius: 6px; font-size: 14px; line-height: 1.35; background: #1e293b; color: #cbd5e1; }
+  .rozet b { display: block; color: #fff; font-size: 14px; }
+  .rozet.iyi b { color: #5eead4; }
+  .rozet.kotu { background: #7f1d1d; color: #fee2e2; }
+  .rozet.kotu b { color: #fff; }
+
+  .ana { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .ustBar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 24px; background: #fff; border-bottom: 1px solid #e2e8f0; }
+  #saat { font-size: 22px; font-weight: 600; color: #334155; font-variant-numeric: tabular-nums; }
+  main { padding: 20px 24px 32px; max-width: 1180px; width: 100%; }
+  .gorunum[hidden] { display: none; }
+
+  .panel { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  .panelBas { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .panelBas h2 { margin: 0; }
+  .alanlar { display: flex; flex-wrap: wrap; margin: 0 -8px; }
+  .alan { flex: 1 1 260px; min-width: 0; padding: 0 8px 14px; }
+  label { display: block; font-size: 14px; font-weight: 600; color: #334155; }
+  input[type=text], input[type=number], select {
+    width: 100%; height: 46px; margin-top: 4px; padding: 0 12px;
+    font-size: 17px; color: #0f172a; border: 1px solid #94a3b8; border-radius: 6px; background: #fff;
+  }
+  input[type=text]:focus, input[type=number]:focus, select:focus, button:focus, label.dugme:focus-within { outline: 3px solid #14b8a6; outline-offset: 1px; }
+  input[readonly] { background: #f1f5f9; font-weight: 600; }
+  #barkod { height: 56px; font-size: 22px; border: 2px solid #0f766e; }
+
+  button, label.dugme {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    height: 44px; padding: 0 18px; font-size: 16px; font-weight: 600; cursor: pointer;
+    border: 1px solid #0f766e; border-radius: 6px; background: #0f766e; color: #fff;
+  }
+  button:hover { background: #115e59; border-color: #115e59; }
+  button.ikinci, label.dugme { background: #fff; color: #0f766e; }
+  button.ikinci:hover, label.dugme:hover { background: #f0fdfa; }
+  label.dugme { margin: 0; font-size: 16px; color: #0f766e; }
+  button.sil { height: 36px; padding: 0 12px; background: #fff; color: #b91c1c; border-color: #b91c1c; }
+  button.sil:hover { background: #fef2f2; }
+  button:disabled { opacity: 0.5; cursor: default; }
+  .grup { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .not { color: #475569; font-size: 15px; }
+
+  .kodOnizleme { display: flex; gap: 16px; align-items: center; padding-top: 4px; }
+  .kodOnizleme .qr svg { width: 72px; height: 72px; display: block; }
+  .kodOnizleme .barkod svg { width: 200px; height: auto; display: block; }
+  .kodOnizleme .kk { font-size: 14px; color: #475569; }
+
+  #depoUyari { margin: 16px 24px 0; padding: 12px 16px; border-radius: 8px; background: #fef2f2; border: 1px solid #b91c1c; color: #991b1b; font-weight: 600; }
+  #mesaj { min-height: 28px; margin-top: 10px; font-size: 17px; font-weight: 600; }
+  #mesaj.hata { color: #b91c1c; }
+  #mesaj.tamam { color: #047857; }
+  .ozet { font-size: 16px; color: #334155; }
+  .etiket { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 13px; font-weight: 600; background: #e2e8f0; color: #334155; }
+  .etiket.taslak { background: #fef3c7; color: #92400e; }
+  .etiket.kayitli { background: #d1fae5; color: #065f46; }
+  #eksikSayi { font-size: 18px; font-weight: 600; margin: 12px 0 8px; }
+
+  .tabloSar { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { border-bottom: 1px solid #e2e8f0; padding: 8px 10px; text-align: left; font-size: 15px; }
+  th { background: #f8fafc; color: #334155; font-weight: 600; white-space: nowrap; }
+  tr.uyari td { color: #b91c1c; font-weight: 600; }
+  td.fiyat { min-width: 90px; background: #fffbeb; }
+  td.no, th.no { width: 44px; text-align: center; }
+  .yazdir { display: none; }
+  .bosSatir { padding: 16px 0; color: #64748b; }
+
+  .eylemCubugu { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding-top: 14px; margin-top: 8px; border-top: 1px solid #e2e8f0; }
+  .eylemCubugu .bosluk { flex: 1; }
+  label.onay { display: inline-flex; align-items: center; gap: 8px; font-weight: 400; font-size: 15px; cursor: pointer; }
+  label.onay input { width: 18px; height: 18px; }
+  .kayitDurum { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-bottom: 14px; }
+  .kayitDurum div { font-size: 15px; color: #334155; }
+  .kayitDurum b { display: block; font-size: 20px; color: #0f172a; }
+  .yolKutu { word-break: break-all; font-family: Consolas, "Courier New", monospace; font-size: 14px; background: #f1f5f9; padding: 6px 10px; border-radius: 6px; }
+
+  .rehber { position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(15, 23, 42, 0.6); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 10; }
+  .rehber[hidden] { display: none; }
+  .rehberKutu { background: #fff; border-radius: 10px; padding: 24px; max-width: 560px; width: 100%; max-height: 92vh; overflow: auto; }
+  .rehberKutu .adim { font-size: 14px; color: #475569; margin-bottom: 4px; }
+  .rehberKutu h2 { font-size: 22px; margin: 0 0 10px; }
+  .rehberKutu .metin { font-size: 17px; line-height: 1.55; min-height: 130px; }
+  .rehberKutu .metin p { margin: 0 0 10px; }
+  .noktalar { display: flex; gap: 6px; margin: 14px 0; }
+  .noktalar span { width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1; }
+  .noktalar span.acik { background: #0f766e; }
+  .rehberKutu .alt { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-top: 8px; }
+
+  @media (max-width: 860px) {
+    .kabuk { flex-direction: column; }
+    .yan { position: static; height: auto; width: auto; flex-direction: row; align-items: center; flex-wrap: wrap; padding: 8px 12px; }
+    .marka { padding: 0 12px 0 0; }
+    .gezin { flex-direction: row; flex-wrap: wrap; }
+    .gezin button { width: auto; height: 40px; }
+    .yanAlt { margin: 0 0 0 auto; padding: 0; }
+    main { padding: 16px; }
+    .ustBar { padding: 12px 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+
+  @media print {
+    @page { size: A4 portrait; margin: 15mm; }
+    body { background: #fff; color: #000; font: 9pt/1.25 Arial, Calibri, sans-serif; }
+    main { max-width: none; padding: 0; }
+    .ekran { display: none !important; }
+    .yazdir { display: block; }
+    .yazdir table { width: 100%; border-collapse: collapse; margin-bottom: 3mm; }
+    .yazdir th, .yazdir td { border: 0.5pt solid #000; padding: 1.2mm 1.5mm; font-size: 9pt; vertical-align: middle; }
+    .yazdir th { background: #eee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .yazdir tr { break-inside: avoid; }
+    .yazdir thead { display: table-header-group; }
+    .ust { display: flex; gap: 6mm; align-items: flex-start; border-bottom: 1.2pt solid #000; padding-bottom: 3mm; margin-bottom: 4mm; }
+    .ust .baslik { flex: 1; text-align: center; align-self: center; }
+    .ust .baslik h2 { font-size: 11pt; margin: 0 0 2mm; letter-spacing: 0.2pt; }
+    .ust .baslik h3 { font-size: 12pt; margin: 0; }
+    .sagKolon { width: 62mm; display: flex; flex-direction: column; gap: 2.5mm; }
+    .ust .kutu { border: 0.75pt solid #000; padding: 1.5mm 2mm; font-size: 9pt; line-height: 1.5; }
+    .islem { font-weight: bold; border: 0.75pt solid #000; padding: 1.5mm 2mm; margin: 0 0 4mm; }
+    .yazdir h4 { font-size: 10pt; text-transform: uppercase; margin: 0 0 1.5mm; padding-bottom: 0.8mm; border-bottom: 0.5pt solid #000; }
+    .yazdir table { table-layout: fixed; }
+    .yazdir table.dar th, .yazdir table.dar td { font-size: 7.5pt; padding: 0.6mm 1mm; }
+    .kodlar { display: flex; gap: 2mm; align-items: center; justify-content: flex-end; }
+    .kodlar svg { display: block; }
+    .kodlar .qr svg { width: 20mm; height: 20mm; }
+    .kodlar .barkod { width: 36mm; }
+    .kodlar .barkod svg { width: 36mm; height: auto; }
+    .kodlar .kodYazi { font: 6.5pt monospace; text-align: center; margin-top: 0.5mm; }
+    .yazdir td.l { width: 38%; font-weight: bold; background: #f2f2f2; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .yazdir td.sag, .yazdir th.sag { text-align: right; }
+    .yazdir td.orta { text-align: center; }
+    .imzalar { display: flex; gap: 6mm; break-inside: avoid; margin-bottom: 3mm; }
+    .imzalar .kutu { flex: 1; border: 0.5pt solid #000; padding: 1.5mm 2mm; line-height: 1.7; }
+    .imzalar .imza { height: 16mm; }
+    .eksikSayfa { break-before: page; page-break-before: always; }
+    .yazdir.nusha2 { break-before: page; page-break-before: always; }
+    .nNot { font-size: 8pt; font-style: italic; }
+    .eksikSayfa .not { font-style: italic; margin: 0 0 3mm; }
+    .hukuk { font-size: 7.5pt; margin: 0; text-align: justify; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="kabuk ekran">
+  <aside class="yan">
+    <div class="marka">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="3" width="22" height="26" rx="3" fill="#0f766e"/><path d="M10 11h12M10 16h12M10 21h7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      <span>Tutanak</span>
+    </div>
+    <nav class="gezin" aria-label="Ana menü">
+      <button type="button" data-gor="tutanak" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>Tutanak</button>
+      <button type="button" data-gor="eksik"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Eksik takibi</button>
+      <button type="button" data-gor="kayitlar"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>Kayıtlar ve yedek</button>
+      <button type="button" data-gor="ayarlar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>Ayarlar ve rehber</button>
+    </nav>
+    <div class="yanAlt">
+      <span class="rozet" id="rozet" role="status"><b id="rozetBaslik">Kayıt durumu</b><span id="rozetAyrinti"></span></span>
+    </div>
+  </aside>
+
+  <div class="ana">
+    <header class="ustBar">
+      <h1 id="gorBaslik">Sponsorluk Ürün Teslim Tutanağı</h1>
+      <span id="saat"></span>
+    </header>
+    <div id="depoUyari" hidden></div>
+    <div id="yukleniyor" class="panel" style="margin:16px 24px 0">Ürün listesi yükleniyor, lütfen bekleyin…</div>
+
+    <main>
+      <!-- 1) TUTANAK -->
+      <div class="gorunum" id="gor-tutanak">
+        <section class="panel">
+          <div class="panelBas"><h2>Tutanak bilgileri</h2><span class="etiket" id="durumEtiketi">Taslak</span></div>
+          <div class="alanlar">
+            <div class="alan"><label for="tutanakNo">Tutanak No</label><input type="text" id="tutanakNo" readonly></div>
+            <div class="alan"><label for="tarih">Tarih (gg.aa.yyyy)</label><input type="text" id="tarih" placeholder="gg.aa.yyyy" autocomplete="off"></div>
+            <div class="alan"><label for="tur">İşlem türü</label><select id="tur"><option value="Teslim">Teslim</option><option value="İade">İade</option></select></div>
+            <div class="alan"><label for="dizi">Sponsorluk yapılan dizi</label><input type="text" id="dizi" autocomplete="off"></div>
+            <div class="alan"><label for="sirket">Yapım şirketi</label><input type="text" id="sirket" autocomplete="off"></div>
+            <div class="alan"></div>
+            <div class="alan"><label for="teslimEden">Teslim eden</label><input type="text" id="teslimEden" autocomplete="off"></div>
+            <div class="alan"><label for="teslimAlan">Teslim alan</label><input type="text" id="teslimAlan" autocomplete="off"></div>
+          </div>
+          <div class="kodOnizleme">
+            <div class="qr" id="ekranQr"></div>
+            <div><div class="barkod" id="ekranBarkod"></div><div class="kk">Kayıt kodu: <b id="kayitKodu"></b></div></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <label for="barkod">Barkod okutun</label>
+          <input type="text" id="barkod" autocomplete="off" autofocus placeholder="Barkodu okutun ve Enter'a basın">
+          <div id="mesaj" role="status"></div>
+          <div class="grup">
+            <label class="dugme" for="fotoGir">Fotoğraftan oku</label>
+            <input type="file" id="fotoGir" accept="image/*" hidden>
+            <span class="not">Tutanağın fotoğrafını seçin; okunan ürünler eklenir, kontrol edin.</span>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panelBas"><h2>Ürünler</h2><span class="ozet" id="ozet"></span></div>
+          <div class="tabloSar">
+            <table id="satirTablosu">
+              <thead>
+                <tr>
+                  <th class="no">#</th><th>Madde kodu</th><th>Renk kodu</th><th>Renk açıklaması</th>
+                  <th>Beden</th><th>Barkod</th><th class="iadeSutun">Teslim no</th><th class="iadeSutun">Teslim tarihi</th><th>Fiyat</th><th></th>
+                </tr>
+              </thead>
+              <tbody id="satirlar"></tbody>
+            </table>
+          </div>
+          <div class="bosSatir" id="bosSatir">Henüz ürün yok. Barkod okutun ya da fotoğraftan okuyun.</div>
+          <div class="eylemCubugu">
+            <button type="button" class="ikinci" id="yeniTutanak">Yeni tutanak</button>
+            <button type="button" id="kaydet">Tutanağı kaydet</button>
+            <button type="button" class="ikinci" id="nebimIndir">Nebim dosyası indir</button>
+            <span class="bosluk"></span>
+            <label class="onay"><input type="checkbox" id="ikiNusha" checked> İkinci nüsha da çıksın</label>
+            <button type="button" id="yazdir">PDF olarak kaydet</button>
+          </div>
+        </section>
+      </div>
+
+      <!-- 2) EKSİK TAKİBİ -->
+      <div class="gorunum" id="gor-eksik" hidden>
+        <section class="panel">
+          <h2>Eksik ürün takibi</h2>
+          <p class="not">Teslim edilip henüz iade alınmayan ürünler. Yalnızca kaydedilmiş tutanaklar sayılır.</p>
+          <label for="takipDizi">Dizi</label>
+          <select id="takipDizi"></select>
+          <div id="eksikSayi"></div>
+          <div class="tabloSar">
+            <table id="eksikTablo">
+              <thead><tr><th>Stok kodu</th><th>Renk</th><th>Beden</th><th>Barkod</th><th>Teslim tarihi</th><th>Teslim no</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="eylemCubugu"><button type="button" class="ikinci" id="eksikCsv">Eksik listesini Excel'e aktar</button></div>
+        </section>
+      </div>
+
+      <!-- 3) KAYITLAR VE YEDEK -->
+      <div class="gorunum" id="gor-kayitlar" hidden>
+        <section class="panel">
+          <h2>Otomatik kayıt</h2>
+          <div class="kayitDurum">
+            <div>Kayıtlı tutanak<b id="kSayi">0</b></div>
+            <div>Son otomatik kayıt<b id="kSon">-</b></div>
+          </div>
+          <p class="not">Her ürün okutulduğunda tutanak kendiliğinden kaydedilir. Günde bir kez de <b>yedekler</b> klasörüne yedek yazılır.</p>
+          <p>Kayıt klasörü:</p>
+          <div class="yolKutu" id="klasorYolu">Bağlı değil</div>
+          <div class="eylemCubugu">
+            <button type="button" class="ikinci" id="klasorBagla">Kayıt klasörünü bağla</button>
+            <button type="button" class="ikinci" id="klasorAc" hidden>Klasörü aç</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Elle yedek</h2>
+          <p class="not">İsterseniz tüm kayıtları bir dosya olarak alabilir ya da önceki bir yedeği geri yükleyebilirsiniz. Yükleme, mevcut kayıtların üzerine aynı numaralıları günceller, diğerlerine dokunmaz.</p>
+          <div class="grup">
+            <button type="button" id="yedekIndir">Yedek al</button>
+            <label class="dugme">Yedek yükle<input type="file" id="yedekYukle" accept=".json,application/json" hidden></label>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Kayıtlı tutanaklar</h2>
+          <div class="tabloSar">
+            <table id="kayitTablosu">
+              <thead><tr><th>No</th><th>Tür</th><th>Dizi</th><th>Tarih</th><th>Ürün</th><th>Durum</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="bosSatir" id="kayitBos">Henüz kayıt yok.</div>
+        </section>
+      </div>
+
+      <!-- 4) AYARLAR VE REHBER -->
+      <div class="gorunum" id="gor-ayarlar" hidden>
+        <section class="panel">
+          <h2>Tutanak sırası</h2>
+          <p class="not">Sıradaki tutanak numarası bu sayının bir fazlasıdır. Genellikle değiştirmeniz gerekmez.</p>
+          <div class="grup">
+            <label for="sayac" style="margin:0">Son verilen sıra</label>
+            <input type="number" id="sayac" min="0" step="1" style="width:120px; margin:0">
+            <button type="button" class="ikinci" id="sayacKaydet">Sırayı ayarla</button>
+          </div>
+        </section>
+        <section class="panel">
+          <h2>Rehber</h2>
+          <p class="not">Programı ilk açtığınızda gösterilen kısa anlatım.</p>
+          <div class="grup">
+            <button type="button" class="ikinci" id="rehberAc">Rehberi göster</button>
+            <label class="onay"><input type="checkbox" id="rehberAcilista"> Program açılırken rehberi göster</label>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+
+  <div class="yazdir">
+    <div class="ust">
+      <div class="baslik">
+        <h2>TERZİ ADEM TEKSTİL VE TİCARET LİMİTED ŞİRKETİ</h2>
+        <h3>SPONSORLUK ÜRÜN TESLİM TUTANAĞI</h3>
+      </div>
+      <div class="sagKolon">
+        <div class="kutu">
+          Tutanak No: <b id="pNo"></b><br>
+          Düzenleme Tarihi: <b id="pTarih"></b><br>
+          Nüsha: <b class="pNusha">1 / 2</b><br>
+          <span class="nNot">Şirket nüshası (bizde kalır)</span>
+        </div>
+        <div class="kodlar">
+          <div class="qr" id="pQr"></div>
+          <div><div class="barkod" id="pBarkod"></div><div class="kodYazi" id="pKayitKodu"></div></div>
+        </div>
+      </div>
+    </div>
+    <p class="islem">İŞLEM TÜRÜ: <span id="pTur"></span></p>
+
+    <h4>1. Sponsorluk Bilgileri</h4>
+    <table>
+      <tr><td class="l">Sponsorluk Yapılan Firma / Kurum Unvanı</td><td id="pSirket"></td></tr>
+      <tr><td class="l">Sponsor Olunan Kişi / Organizasyon / Program / Etkinlik</td><td id="pDizi"></td></tr>
+      <tr><td class="l">İşlemin Gerçekleştirildiği Tarih</td><td id="pTarih2"></td></tr>
+      <tr><td class="l">İşlemin Gerçekleştirildiği Saat</td><td id="pSaat">&nbsp;</td></tr>
+      <tr><td class="l">Ürünlerin Teslim Edildiği Lokasyon</td><td>MERKEZ MAĞAZA (ESENYURT)</td></tr>
+    </table>
+
+    <h4>2. Ürün Bilgileri</h4>
+    <table id="pUrunTablo">
+      <colgroup id="pKolonlar"></colgroup>
+      <thead><tr id="pBasliklar"></tr></thead>
+      <tbody id="pUrunler"></tbody>
+      <tfoot>
+        <tr><td id="pToplamEtiket" class="sag"><b>TOPLAM SATIŞ TUTARI (₺)</b></td><td class="sag" id="pToplam"></td></tr>
+      </tfoot>
+    </table>
+
+    <h4>3. Teslim Eden / Teslim Alan Bilgileri ve İmzalar</h4>
+    <div class="imzalar">
+      <div class="kutu">
+        <b>TESLİM EDEN</b><br>
+        Adı Soyadı: <span id="pEden"></span><br>
+        Görevi / Birimi: ……………………………………<br>
+        Tarih / Saat: <span class="pTarih3"></span> &nbsp; ……:……<br>
+        İmza:<div class="imza"></div>
+      </div>
+      <div class="kutu">
+        <b>TESLİM ALAN</b><br>
+        Adı Soyadı: <span id="pAlan"></span><br>
+        Görevi / Birimi: ……………………………………<br>
+        Tarih / Saat: <span class="pTarih3"></span> &nbsp; ……:……<br>
+        İmza:<div class="imza"></div>
+      </div>
+    </div>
+
+    <p class="hukuk">Bu tutanak, Sponsorluk Ürün Teslim, İade ve Stok Takip Süreçleri Prosedürü'ne uygun olarak sponsorluk kapsamındaki ürün teslimi için 2 (iki) nüsha düzenlenmiş olup taraflarca imzalanarak yürürlüğe girer. Teslim işlemi, tutanak tamamlanmadan gerçekleştirilemez. Eksik veya hatalı bilgi nedeniyle doğabilecek stok/satış farklılıklarından tutanakta adı geçen ilgililer sorumludur.</p>
+
+    <section class="eksikSayfa" id="pEksik" hidden>
+      <h2>Eksik Ürün Listesi</h2>
+      <p class="not">Bu liste İade tutanağı ekidir. Tutanak No: <span id="pEksikNo"></span> &nbsp;|&nbsp; Dizi: <span id="pEksikDizi"></span></p>
+      <p id="pEksikYok">Eksik ürün yok.</p>
+      <table id="pEksikTablo">
+        <thead><tr><th>Stok Kodu</th><th>Renk</th><th>Beden</th><th>Barkod</th><th>Teslim Tarihi</th><th>Teslim No</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </div>
+
+<div id="rehber" class="rehber ekran" hidden>
+  <div class="rehberKutu" role="dialog" aria-modal="true" aria-labelledby="rehberBaslik">
+    <div class="adim" id="rehberAdim"></div>
+    <h2 id="rehberBaslik"></h2>
+    <div class="metin" id="rehberMetin"></div>
+    <div class="noktalar" id="rehberNoktalar" aria-hidden="true"></div>
+    <div class="alt">
+      <label class="onay"><input type="checkbox" id="rehberGizle"> Bir daha gösterme</label>
+      <div class="grup">
+        <button type="button" class="ikinci" id="rehberGeri">Geri</button>
+        <button type="button" id="rehberIleri">İleri</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="yukle.js"></script>
+</body>
+</html>

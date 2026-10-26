@@ -1,0 +1,68 @@
+# .gitignore - El yazısı OCR deposu (yusufbesir/el-yazisi-ocr)
+# yazan: [Claude#HtqxxY] · 2026-10-26 · Yusuf'a ait
+# Kural (Yusuf, 26.10): kaynak kod ve belgeler depoda; eğitim veri setleri, örnek fotoğraflar, müşteri bilgisi içeren
+# okuma çıktıları, büyük model dosyaları ve sanal ortam DEPOYA GİRMEZ. Beyaz liste: önce her şey dışarıda, sonra izin verilenler.
+/*
+!/.gitignore
+!/README.md
+!/LICENSE
+!/*.md
+/cop-kutusu-listesi-*.txt
+!/demo.html
+
+!/arastirma/
+!/motor/
+/motor/gunluk/
+/motor/olc-*.json
+/motor/_*.txt
+
+!/test/
+!/js/
+/js/model*.js
+
+!/cihaz/
+/cihaz/*.json
+/cihaz/*.log
+/cihaz/*.png
+/cihaz/hucreler/
+/cihaz/fis-paddle/
+/cihaz/rea-inceleme/
+
+!/egitim/
+/egitim/*.json
+/egitim/*.pt
+/egitim/gece/*/
+/egitim/gece/*.txt
+/egitim/gece/*.png
+/egitim/gece/*-stdout.txt
+/egitim/gece/*-stderr.txt
+!/egitim/gece/sabah/
+!/egitim/gece/sabah2/
+
+!/entegre/
+/entegre/**/node_modules/
+/entegre/**/model*.js
+/entegre/**/*.orijinal.*
+/entegre/**/dist/
+/entegre/**/out/
+
+__pycache__/
+*.pyc
+*.exe
+*.zip
+*.tgz
+*.tar*
+*.npy
+*.npz
+*.parquet
+*.jpg
+*.jpeg
+*.png
+*.webp
+
+# şirket ürün/fiyat listesi (iş verisi, OCR değil)
+/entegre/**/barkod-veri.js
+/entegre/**/stok-kodlari*.js
+# müşteri adı/telefonu içeren fiş ölçüm raporları (kişisel veri)
+/cihaz/OLCUM-fisler*.md
+/cihaz/OLCUM-yeni.md

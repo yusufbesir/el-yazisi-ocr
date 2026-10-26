@@ -1,0 +1,35 @@
+{
+ "foto": "ornekler\\yeni5\\y5-03.jpg",
+ "ozet": {
+  "kod_dogru": 0,
+  "kodlu": 0,
+  "kabul_dogru": 0,
+  "yanlis_kabul": 0,
+  "sor": 0,
+  "adet_dogru": 0,
+  "sure_s": 39.24
+ },
+ "satirlar": [],
+ "yanit": {
+  "yontem": "sayfa",
+  "goruntu": {
+   "w": 1421,
+   "h": 2000
+  },
+  "satirlar": [],
+  "metinler": [],
+  "yon": {
+   "karar": "0 yeterli",
+   "olcum": {
+    "0": {
+     "kalite": 775.2,
+     "ort_guven": 0.946,
+     "madde": 61
+    }
+   }
+  },
+  "uyari": [
+   "tablo bulunamadı: tablo satır çizgileri bulunamadı | tablo sütunları bulunamadı (gevşek)"
+  ]
+ }
+}

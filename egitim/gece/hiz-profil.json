@@ -1,0 +1,65 @@
+{
+ "yukleme_sn": 16.7,
+ "foto": {
+  "tutanak-1.jpg": {
+   "toplam_sn": 81.4,
+   "satir": 8,
+   "asamalar": {
+    "paddle det+rec (sayfa)": {
+     "adet": 2,
+     "sn": 67.2
+    },
+    "yön bulma (toplam)": {
+     "adet": 1,
+     "sn": 46.1
+    },
+    "tablo bölme": {
+     "adet": 1,
+     "sn": 0.5
+    },
+    "paddle rec (hücre)": {
+     "adet": 24,
+     "sn": 9.2
+    },
+    "cnn (numpy)": {
+     "adet": 20,
+     "sn": 1.4
+    }
+   },
+   "durumlar": [
+    [
+     "T14525",
+     "sor"
+    ],
+    [
+     "T14522",
+     "sor"
+    ],
+    [
+     "T20191-08",
+     "sor"
+    ],
+    [
+     "T20070-01",
+     "sor"
+    ],
+    [
+     "T20236-02",
+     "sor"
+    ],
+    [
+     "T20236-01",
+     "sor"
+    ],
+    [
+     "T20136-02",
+     "sor"
+    ],
+    [
+     "T20178-01",
+     "sor"
+    ]
+   ]
+  }
+ }
+}

@@ -1,0 +1,44 @@
+{
+ "egitim\\model.json": {
+  "listede": {
+   "dogru_kabul": 100,
+   "sor": 479,
+   "yanlis_kabul": 21,
+   "ilk_aday_dogru": 329,
+   "n": 600
+  },
+  "liste_disi": {
+   "sor": 298,
+   "yanlis_kabul": 2,
+   "n": 300
+  }
+ },
+ "egitim\\gece\\kod\\en-iyi.json": {
+  "listede": {
+   "dogru_kabul": 364,
+   "sor": 235,
+   "yanlis_kabul": 1,
+   "ilk_aday_dogru": 556,
+   "n": 600
+  },
+  "liste_disi": {
+   "sor": 296,
+   "yanlis_kabul": 4,
+   "n": 300
+  }
+ },
+ "egitim\\model-emnist.json": {
+  "listede": {
+   "dogru_kabul": 245,
+   "sor": 318,
+   "yanlis_kabul": 37,
+   "ilk_aday_dogru": 381,
+   "n": 600
+  },
+  "liste_disi": {
+   "sor": 292,
+   "yanlis_kabul": 8,
+   "n": 300
+  }
+ }
+}

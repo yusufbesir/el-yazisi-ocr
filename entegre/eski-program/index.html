@@ -1,0 +1,1126 @@
+<!doctype html>
+<!-- yazan: [Claude#RKxwbX] · [İP:El yazısı OCR#RKxwbX] · 2026-10-25 · Yusuf'a ait, eğitim amaçlı; değiştirme: yalnız bu iş parçacığı | Orijinal: index.orijinal.html | Fotoğraftan okuma ElYazisiOCR ile (elyazisi/ klasörü gerekir: model.js, elyazisi-ocr.js). -->
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sponsorluk Ürün Teslim Tutanağı</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.4 Arial, Helvetica, sans-serif; color: #1c1c1c; background: #f2f3f5; }
+  main { max-width: 1280px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 24px; margin: 0 0 12px; }
+  .panel { background: #fff; border: 1px solid #d5d8dd; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 16px; }
+  label { display: block; font-size: 14px; font-weight: bold; color: #444; }
+  input[type=text], input[type=number], select {
+    width: 100%; height: 48px; margin-top: 4px; padding: 0 12px;
+    font-size: 18px; border: 2px solid #b8bdc5; border-radius: 6px; background: #fff;
+  }
+  input:focus, select:focus { outline: none; border-color: #1a56db; }
+  input[readonly] { background: #eef0f3; font-weight: bold; }
+  .row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; margin-top: 12px; }
+  .row .grow { flex: 1; min-width: 260px; }
+  button {
+    height: 48px; padding: 0 20px; font-size: 17px; font-weight: bold; cursor: pointer;
+    border: 2px solid #1a56db; border-radius: 6px; background: #1a56db; color: #fff;
+  }
+  label.dosya { display: inline-flex; align-items: center; height: 48px; padding: 0 20px; font-size: 17px; cursor: pointer;
+    border: 2px solid #1a56db; border-radius: 6px; background: #fff; color: #1a56db; }
+  .kodOnizleme { display: flex; gap: 16px; align-items: center; margin-top: 12px; }
+  .kodOnizleme .qr svg { width: 80px; height: 80px; display: block; }
+  .kodOnizleme .barkod svg { width: 220px; height: auto; display: block; }
+  #saat { float: right; font-size: 28px; font-weight: bold; font-variant-numeric: tabular-nums; }
+  #depoUyari { margin-bottom: 16px; padding: 12px 16px; border-radius: 8px; background: #fef3f2; border: 1px solid #b42318; color: #b42318; font-weight: bold; }
+  #eksikSayi { font-size: 18px; font-weight: bold; margin: 12px 0 8px; }
+  button.light { background: #fff; color: #1a56db; }
+  button.del { height: 40px; padding: 0 14px; background: #fff; color: #b42318; border-color: #b42318; }
+  #mesaj { min-height: 28px; margin-top: 8px; font-size: 18px; font-weight: bold; }
+  #mesaj.hata { color: #b42318; }
+  #mesaj.tamam { color: #067647; }
+  .ozet { font-size: 18px; margin: 4px 0 8px; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { border: 1px solid #c4c8ce; padding: 6px 8px; text-align: left; font-size: 15px; }
+  th { background: #eef0f3; }
+  tr.uyari td { color: #b42318; font-weight: bold; }
+  td.fiyat { min-width: 90px; background: #fffbe6; }
+  td.no, th.no { width: 44px; text-align: center; }
+  .yazdir { display: none; }
+  .menuler { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; margin-top: 12px; }
+  details.menu { border: 1px solid #b8bdc5; border-radius: 8px; padding: 8px 12px; background: #fff; min-width: 180px; }
+  details.menu summary { font-weight: bold; font-size: 16px; cursor: pointer; min-height: 36px; line-height: 36px; }
+  .menuIcerik { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
+  .menuIcerik label { margin: 0; }
+  label.onay { display: inline-flex; align-items: center; gap: 6px; font-weight: normal; font-size: 15px; }
+  .rehber { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.45); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 10; }
+  .rehber[hidden] { display: none; }
+  .rehberKutu { background: #fff; border-radius: 10px; padding: 20px 24px; max-width: 640px; width: 100%; max-height: 90vh; overflow: auto; }
+  .rehberKutu h2 { margin: 0 0 12px; font-size: 22px; }
+  .rehberKutu ol { padding-left: 22px; font-size: 17px; line-height: 1.5; }
+  .rehberKutu .alt { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-top: 16px; }
+
+  @media print {
+    @page { size: A4 portrait; margin: 15mm; }
+    body { background: #fff; color: #000; font: 9pt/1.25 Arial, Calibri, sans-serif; }
+    main { max-width: none; padding: 0; }
+    .ekran { display: none !important; }
+    .yazdir { display: block; }
+    .yazdir table { width: 100%; border-collapse: collapse; margin-bottom: 3mm; }
+    .yazdir th, .yazdir td { border: 0.5pt solid #000; padding: 1.2mm 1.5mm; font-size: 9pt; vertical-align: middle; }
+    .yazdir th { background: #eee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .yazdir tr { break-inside: avoid; }
+    .yazdir thead { display: table-header-group; }
+    .ust { display: flex; gap: 6mm; align-items: flex-start; border-bottom: 1.2pt solid #000; padding-bottom: 3mm; margin-bottom: 4mm; }
+    .ust .baslik { flex: 1; text-align: center; align-self: center; }
+    .ust .baslik h2 { font-size: 11pt; margin: 0 0 2mm; letter-spacing: 0.2pt; }
+    .ust .baslik h3 { font-size: 12pt; margin: 0; }
+    .sagKolon { width: 62mm; display: flex; flex-direction: column; gap: 2.5mm; }
+    .ust .kutu { border: 0.75pt solid #000; padding: 1.5mm 2mm; font-size: 9pt; line-height: 1.5; }
+    .islem { font-weight: bold; border: 0.75pt solid #000; padding: 1.5mm 2mm; margin: 0 0 4mm; }
+    .yazdir h4 { font-size: 10pt; text-transform: uppercase; margin: 0 0 1.5mm; padding-bottom: 0.8mm; border-bottom: 0.5pt solid #000; }
+    .yazdir table { table-layout: fixed; }
+    .yazdir table.dar th, .yazdir table.dar td { font-size: 7.5pt; padding: 0.6mm 1mm; }
+    .kodlar { display: flex; gap: 2mm; align-items: center; justify-content: flex-end; }
+    .kodlar svg { display: block; }
+    .kodlar .qr svg { width: 20mm; height: 20mm; }
+    .kodlar .barkod { width: 36mm; }
+    .kodlar .barkod svg { width: 36mm; height: auto; }
+    .kodlar .kodYazi { font: 6.5pt monospace; text-align: center; margin-top: 0.5mm; }
+    .yazdir td.l { width: 38%; font-weight: bold; background: #f2f2f2; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .yazdir td.sag, .yazdir th.sag { text-align: right; }
+    .yazdir td.orta { text-align: center; }
+    .imzalar { display: flex; gap: 6mm; break-inside: avoid; margin-bottom: 3mm; }
+    .imzalar .kutu { flex: 1; border: 0.5pt solid #000; padding: 1.5mm 2mm; line-height: 1.7; }
+    .imzalar .imza { height: 16mm; }
+    .eksikSayfa { break-before: page; page-break-before: always; }
+    .yazdir.nusha2 { break-before: page; page-break-before: always; }
+    .nNot { font-size: 8pt; font-style: italic; }
+    .eksikSayfa .not { font-style: italic; margin: 0 0 3mm; }
+    .hukuk { font-size: 7.5pt; margin: 0; text-align: justify; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1 class="ekran">Sponsorluk Ürün Teslim Tutanağı <span id="saat"></span></h1>
+  <div id="depoUyari" class="ekran" hidden></div>
+
+  <section class="panel ekran">
+    <div class="grid">
+      <div><label for="tutanakNo">Tutanak No</label><input type="text" id="tutanakNo" readonly></div>
+      <div><label for="tarih">Tarih (gg.aa.yyyy)</label><input type="text" id="tarih" placeholder="gg.aa.yyyy"></div>
+      <div><label for="tur">İşlem Türü</label><select id="tur"><option value="Teslim">Teslim</option><option value="İade">İade</option></select></div>
+      <div><label for="dizi">Sponsorluk Yapılan Dizi</label><input type="text" id="dizi"></div>
+      <div><label for="sirket">Yapım Şirketi</label><input type="text" id="sirket"></div>
+      <div></div>
+      <div><label for="teslimEden">Teslim Eden</label><input type="text" id="teslimEden"></div>
+      <div><label for="teslimAlan">Teslim Alan</label><input type="text" id="teslimAlan"></div>
+    </div>
+    <div id="dosyaDurum" class="ozet"></div>
+    <div class="kodOnizleme">
+      <div class="qr" id="ekranQr"></div>
+      <div><div class="barkod" id="ekranBarkod"></div><div>Kayıt kodu: <b id="kayitKodu"></b></div></div>
+    </div>
+    <div class="menuler">
+      <details class="menu" open>
+        <summary>Tutanak</summary>
+        <div class="menuIcerik">
+          <button type="button" id="yeniTutanak">Yeni tutanak</button>
+          <button type="button" id="kaydet">Tutanağı kaydet</button>
+        </div>
+        <div class="menuIcerik">
+          <label for="sayac">Sıradaki tutanak sırası</label>
+          <input type="number" id="sayac" min="0" step="1" style="width:110px; height:40px">
+          <button type="button" class="light" id="sayacKaydet">Sırayı ayarla</button>
+        </div>
+      </details>
+      <details class="menu">
+        <summary>Kayıt klasörü</summary>
+        <div class="menuIcerik">
+          <button type="button" class="light" id="klasorBagla">Kayıt klasörünü bağla</button>
+          <span>Programın bulunduğu klasörü seçin. Kayıtlar içindeki kayitlar klasörüne yazılır.</span>
+        </div>
+      </details>
+      <details class="menu">
+        <summary>Yedek</summary>
+        <div class="menuIcerik">
+          <button type="button" class="light" id="yedekIndir">Yedek al</button>
+          <label class="dosya">Yedek yükle<input type="file" id="yedekYukle" accept=".json,application/json" hidden></label>
+        </div>
+      </details>
+      <details class="menu">
+        <summary>Dışa aktar</summary>
+        <div class="menuIcerik">
+          <button type="button" class="light" id="nebimIndir">Nebim dosyası indir</button>
+        </div>
+      </details>
+      <button type="button" class="light" id="rehberAc">Rehber</button>
+    </div>
+  </section>
+
+  <section class="panel ekran">
+    <label for="barkod">Barkod okutun</label>
+    <input type="text" id="barkod" autocomplete="off" autofocus placeholder="Barkodu okutun ve Enter'a basın">
+    <div id="mesaj" role="status"></div>
+    <div class="row">
+      <label class="dosya" for="fotoGir">Fotoğraftan oku</label>
+      <input type="file" id="fotoGir" accept="image/*" hidden>
+      <span>Tutanağın fotoğrafını seçin. Okunan ürünler tutanağa eklenir, eklenenleri kontrol edin.</span>
+    </div>
+  </section>
+
+  <div class="yazdir">
+    <div class="ust">
+      <div class="baslik">
+        <h2>TERZİ ADEM TEKSTİL VE TİCARET LİMİTED ŞİRKETİ</h2>
+        <h3>SPONSORLUK ÜRÜN TESLİM TUTANAĞI</h3>
+      </div>
+      <div class="sagKolon">
+        <div class="kutu">
+          Tutanak No: <b id="pNo"></b><br>
+          Düzenleme Tarihi: <b id="pTarih"></b><br>
+          Nüsha: <b class="pNusha">1 / 2</b><br>
+          <span class="nNot">Şirket nüshası (bizde kalır)</span>
+        </div>
+        <div class="kodlar">
+          <div class="qr" id="pQr"></div>
+          <div><div class="barkod" id="pBarkod"></div><div class="kodYazi" id="pKayitKodu"></div></div>
+        </div>
+      </div>
+    </div>
+    <p class="islem">İŞLEM TÜRÜ: <span id="pTur"></span></p>
+
+    <h4>1. Sponsorluk Bilgileri</h4>
+    <table>
+      <tr><td class="l">Sponsorluk Yapılan Firma / Kurum Unvanı</td><td id="pSirket"></td></tr>
+      <tr><td class="l">Sponsor Olunan Kişi / Organizasyon / Program / Etkinlik</td><td id="pDizi"></td></tr>
+      <tr><td class="l">İşlemin Gerçekleştirildiği Tarih</td><td id="pTarih2"></td></tr>
+      <tr><td class="l">İşlemin Gerçekleştirildiği Saat</td><td id="pSaat">&nbsp;</td></tr>
+      <tr><td class="l">Ürünlerin Teslim Edildiği Lokasyon</td><td>MERKEZ MAĞAZA (ESENYURT)</td></tr>
+    </table>
+
+    <h4>2. Ürün Bilgileri</h4>
+    <table id="pUrunTablo">
+      <colgroup id="pKolonlar"></colgroup>
+      <thead><tr id="pBasliklar"></tr></thead>
+      <tbody id="pUrunler"></tbody>
+      <tfoot>
+        <tr><td id="pToplamEtiket" class="sag"><b>TOPLAM SATIŞ TUTARI (₺)</b></td><td class="sag" id="pToplam"></td></tr>
+      </tfoot>
+    </table>
+
+    <h4>3. Teslim Eden / Teslim Alan Bilgileri ve İmzalar</h4>
+    <div class="imzalar">
+      <div class="kutu">
+        <b>TESLİM EDEN</b><br>
+        Adı Soyadı: <span id="pEden"></span><br>
+        Görevi / Birimi: ……………………………………<br>
+        Tarih / Saat: <span class="pTarih3"></span> &nbsp; ……:……<br>
+        İmza:<div class="imza"></div>
+      </div>
+      <div class="kutu">
+        <b>TESLİM ALAN</b><br>
+        Adı Soyadı: <span id="pAlan"></span><br>
+        Görevi / Birimi: ……………………………………<br>
+        Tarih / Saat: <span class="pTarih3"></span> &nbsp; ……:……<br>
+        İmza:<div class="imza"></div>
+      </div>
+    </div>
+
+    <p class="hukuk">Bu tutanak, Sponsorluk Ürün Teslim, İade ve Stok Takip Süreçleri Prosedürü'ne uygun olarak sponsorluk kapsamındaki ürün teslimi için 2 (iki) nüsha düzenlenmiş olup taraflarca imzalanarak yürürlüğe girer. Teslim işlemi, tutanak tamamlanmadan gerçekleştirilemez. Eksik veya hatalı bilgi nedeniyle doğabilecek stok/satış farklılıklarından tutanakta adı geçen ilgililer sorumludur.</p>
+
+    <section class="eksikSayfa" id="pEksik" hidden>
+      <h2>Eksik Ürün Listesi</h2>
+      <p class="not">Bu liste İade tutanağı ekidir. Tutanak No: <span id="pEksikNo"></span> &nbsp;|&nbsp; Dizi: <span id="pEksikDizi"></span></p>
+      <p id="pEksikYok">Eksik ürün yok.</p>
+      <table id="pEksikTablo">
+        <thead><tr><th>Stok Kodu</th><th>Renk</th><th>Beden</th><th>Barkod</th><th>Teslim Tarihi</th><th>Teslim No</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </div>
+
+  <section class="panel ekran">
+    <h2>Eksik ürün takibi</h2>
+    <label for="takipDizi">Dizi</label>
+    <select id="takipDizi"></select>
+    <div id="eksikSayi"></div>
+    <table id="eksikTablo">
+      <thead><tr><th>Stok Kodu</th><th>Renk</th><th>Beden</th><th>Barkod</th><th>Teslim Tarihi</th><th>Teslim No</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="row">
+      <button type="button" class="light" id="eksikCsv">Eksik listesini Excel'e aktar</button>
+    </div>
+  </section>
+
+  <section class="panel ekran">
+    <div class="ozet"><span id="ozet"></span></div>
+    <table id="satirTablosu">
+      <thead>
+        <tr>
+          <th class="no">#</th><th>Madde Kodu</th><th>Renk Kodu</th><th>Renk Açıklaması</th>
+          <th>Beden</th><th>Barkod</th><th>Teslim No</th><th>Teslim Tarihi</th><th>Fiyat</th><th class="del-col"></th>
+        </tr>
+      </thead>
+      <tbody id="satirlar"></tbody>
+    </table>
+    <div class="row ekran">
+      <label class="onay"><input type="checkbox" id="ikiNusha" checked> İkinci nüshayı da yazdır (karşı tarafa verilir)</label>
+      <button type="button" id="yazdir">PDF olarak kaydet</button>
+      <span>Yazdırma penceresinde hedef olarak <b>"PDF olarak kaydet"</b> seçeneğini seçin.</span>
+    </div>
+  </section>
+
+</main>
+
+<div id="rehber" class="rehber" hidden>
+  <div class="rehberKutu" role="dialog" aria-modal="true" aria-labelledby="rehberBaslik">
+    <h2 id="rehberBaslik">Tutanak Doldurucu'ya hoş geldiniz</h2>
+    <ol>
+      <li>Önce <b>Kayıt klasörü</b> menüsünden programın bulunduğu klasörü seçin. Kayıtlar bu klasörün içindeki <b>kayitlar</b> klasörüne otomatik yazılır.</li>
+      <li>Tutanak türünü (Teslim ya da İade), diziyi, yapım şirketini ve teslim eden ile teslim alanı girin.</li>
+      <li>Barkod okuyucuyla ürünleri okutun. Her okutmada taslak kayıt klasöre yazılır.</li>
+      <li>Tutanağı <b>Tutanak</b> menüsünden kaydedin, sonra <b>PDF olarak kaydet</b> ile yazdırın.</li>
+      <li>İade tutanağında her ürünün hangi teslim tutanağından geldiği görünür. Eksik ürünler alttaki takip bölümündedir.</li>
+      <li>Yedeği <b>Yedek</b> menüsünden dosya olarak alabilir ya da yükleyebilirsiniz.</li>
+    </ol>
+    <div class="alt">
+      <label class="onay"><input type="checkbox" id="rehberGizle"> Bir daha gösterme</label>
+      <button type="button" id="rehberKapat">Anladım</button>
+    </div>
+  </div>
+</div>
+<script src="barkod-veri.js"></script>
+<script src="qr-kod.js"></script>
+<script src="barkod-kod.js"></script>
+<script src="nebim-xlsx.js"></script>
+<script>
+(function () {
+  var VERI = window.BARKOD_VERI || {};
+  var HEADER_KEY = "tutanak-baslik";
+  var SAYAC_KEY = "tutanak-sayac";
+  var DOSYA_ADI = "takip-kayitlari.json";
+  var KLASOR_ADI = "kayitlar";
+  var TASLAK_DOSYA = "taslak.json";
+  var REHBER_KEY = "tutanak-rehber-gizle";
+  var DOSYA_DESTEGI = typeof window.showDirectoryPicker === "function";
+  var kayitlar = [];   // tek kaynak: kayıt dosyası; bellekteki kopya
+  var bekleyenKod = { no: "", kod: "" };   // henüz kaydedilmemiş tutanağın kayıt kodu
+  var klasor = null;   // kayitlar klasörü (FileSystemDirectoryHandle)
+  var lines = [];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var alanlar = ["tarih", "dizi", "sirket", "teslimEden", "teslimAlan"];
+
+  function lsGet(key) {
+    try { return localStorage.getItem(key); } catch (e) { return null; }
+  }
+  function lsSet(key, val) {
+    try { localStorage.setItem(key, val); } catch (e) { /* depolama yok */ }
+  }
+
+  function saatMetni() {
+    var d = new Date();
+    return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+  }
+
+  // Dosya adı: dizi, tarih, saat ve işlem türü. Yazdırmada PDF adı, Nebim'de xlsx adı olur.
+  function dosyaAdi() {
+    var parcalar = [$("dizi").value.trim() || "Tutanak", $("tarih").value.trim() || bugun(), saatMetni().replace(":", "."), $("tur").value];
+    return parcalar.join(" ").replace(/[\\/:*?"<>|]/g, "-").replace(/\s+/g, " ").trim();
+  }
+
+  // ---- Kayıtlar: programın yanındaki kayitlar klasöründe ----
+  function kayitlariAyristir(metin) {
+    var o = JSON.parse(metin);
+    var liste = Array.isArray(o) ? o : o.kayitlar;
+    if (!Array.isArray(liste) || !liste.every(function (k) { return k && k.no && Array.isArray(k.satirlar); })) throw new Error("biçim");
+    return liste;
+  }
+
+  function kayitMetni(liste) {
+    return JSON.stringify({ kayitlar: liste }, null, 2);
+  }
+
+  function dosyaDurumuYaz() {
+    var uyari = $("depoUyari");
+    uyari.hidden = false;
+    if (!DOSYA_DESTEGI) {
+      uyari.textContent = "Bu tarayıcı kayıt klasörüne otomatik yazamıyor. Chrome ya da Edge kullanın. Şimdilik kayıtlar yalnızca bu sayfada tutulur; işiniz bitince Yedek al ile dosyayı kaydedin.";
+    } else if (!klasor) {
+      uyari.textContent = "Kayıt klasörü bağlı değil. Kayıt klasörü menüsünden programın bulunduğu klasörü seçin. Bağlanana kadar kayıt yapılamaz.";
+    } else {
+      uyari.hidden = true;
+    }
+    $("dosyaDurum").textContent = klasor ? "Kayıt klasörü bağlı: " + kayitlar.length + " kayıt" : "";
+  }
+
+  // Kayıt klasörüne tek dosya yazar
+  function klasoreYaz(ad, metin) {
+    return klasor.getFileHandle(ad, { create: true }).then(function (h) {
+      return h.createWritable().then(function (w) {
+        return w.write(metin).then(function () { return w.close(); });
+      });
+    });
+  }
+
+  // Ana kayıt dosyasını yazar; bellekteki listeyi yalnızca yazma başarılıysa günceller
+  function kayitlariSakla(yeni) {
+    if (!DOSYA_DESTEGI) { kayitlar = yeni; dosyaDurumuYaz(); return Promise.resolve(true); }
+    if (!klasor) { mesaj("Kayıt klasörü bağlı değil. Kayıt klasörü menüsünden bağlayın.", "hata"); return Promise.resolve(false); }
+    return klasoreYaz(DOSYA_ADI, kayitMetni(yeni)).then(function () {
+      kayitlar = yeni;
+      dosyaDurumuYaz();
+      return true;
+    }).catch(function () {
+      mesaj("Kayıt klasörüne yazılamadı. Klasör izni ya da erişimi kontrol edin.", "hata");
+      return false;
+    });
+  }
+
+  // Her okutmada tutanağın taslağını klasöre yazar; yalnızca son hali tutulur
+  function taslagiKaydet() {
+    if (!klasor) return;
+    var kayit = mevcutKayit();
+    if (!kayit.satirlar.length) return;
+    klasoreYaz(TASLAK_DOSYA, JSON.stringify({ taslak: kayit, guncellendi: new Date().toISOString() }, null, 2)).catch(function () {
+      mesaj("Taslak klasöre yazılamadı. Klasör izni ya da erişimi kontrol edin.", "hata");
+    });
+  }
+
+  function dosyaBaglandi() {
+    takipDiziListesi();
+    dosyaDurumuYaz();
+  }
+
+  // Seçilen klasörün içinde kayitlar klasörünü açar (yoksa oluşturur) ve kayıtları okur
+  function klasorBagla() {
+    if (!DOSYA_DESTEGI) return;
+    window.showDirectoryPicker({ mode: "readwrite" }).then(function (secilen) {
+      var kayitKlasoru;
+      return secilen.getDirectoryHandle(KLASOR_ADI, { create: true }).then(function (alt) {
+        kayitKlasoru = alt;
+        return alt.getFileHandle(DOSYA_ADI, { create: true });
+      }).then(function (h) { return h.getFile(); }).then(function (f) { return f.text(); }).then(function (metin) {
+        var liste = metin.trim() ? kayitlariAyristir(metin) : [];
+        klasor = kayitKlasoru;
+        kayitlar = liste;
+        dosyaBaglandi();
+        mesaj("Kayıt klasörü bağlandı: " + liste.length + " kayıt.", "tamam");
+      });
+    }).catch(function (e) {
+      if (e && e.name === "AbortError") return;
+      mesaj("Kayıt klasörü bağlanamadı. Dosya bozuksa Yedek yükle ile düzeltebilirsiniz.", "hata");
+    });
+  }
+
+  function diziAnahtar(s) {
+    return String(s || "").trim().toLocaleLowerCase("tr");
+  }
+
+  function yeniKayitKodu() {
+    var d = new Date();
+    var iki = function (n) { return String(n).padStart(2, "0"); };
+    return "TK" + d.getFullYear() + iki(d.getMonth() + 1) + iki(d.getDate()) + iki(d.getHours()) + iki(d.getMinutes()) + iki(d.getSeconds()) +
+      String(Math.floor(Math.random() * 1000)).padStart(3, "0");
+  }
+
+  // Kayıtlıysa kayıttaki kod; değilse (uret ise) bir kez üretilir ve kaydedilene kadar sabit kalır
+  function kayitKodu(uret) {
+    var no = $("tutanakNo").value;
+    var kayit = kayitlar.find(function (k) { return k.no === no; });
+    if (kayit && kayit.kayitKodu) return kayit.kayitKodu;
+    if (bekleyenKod.no !== no) bekleyenKod = { no: no, kod: "" };
+    if (!bekleyenKod.kod && uret) bekleyenKod.kod = yeniKayitKodu();
+    return bekleyenKod.kod;
+  }
+
+  // Barkod yalnızca kayıt kodunu taşır; QR tutanak bilgilerini taşır
+  function kodlariCiz() {
+    var kod = kayitKodu(false);
+    var barkodSvg = "", qrSvg = "";
+    try {
+      if (kod) barkodSvg = BarkodCiz.svg("code128", kod, { modulGenislik: 2, yukseklik: 60, sessizBolge: 10, yaziGoster: false });
+      qrSvg = QrKod.svg("NO:" + $("tutanakNo").value + "|TUR:" + $("tur").value + "|TARIH:" + $("tarih").value + "|SAAT:" + ($("pSaat").textContent.trim() || saatMetni()) +
+        "|DIZI:" + $("dizi").value.trim() + "|SIRKET:" + $("sirket").value.trim() + "|URUN:" + lines.length, { modulGenislik: 4, sessizBolge: 2 });
+    } catch (e) {
+      mesaj("Barkod/QR üretilemedi (qr-kod.js veya barkod-kod.js yüklenemedi).", "hata");
+    }
+    ["pBarkod", "ekranBarkod"].forEach(function (id) { $(id).innerHTML = barkodSvg; });
+    ["pQr", "ekranQr"].forEach(function (id) { $(id).innerHTML = qrSvg; });
+    $("pKayitKodu").textContent = kod;
+    $("kayitKodu").textContent = kod || "kaydedilince veya yazdırılınca oluşur";
+  }
+
+  // Bu tutanağın kayıt hali
+  function mevcutKayit() {
+    return {
+      no: $("tutanakNo").value,
+      kayitKodu: kayitKodu(true),
+      tur: $("tur").value,
+      tarih: $("tarih").value,
+      saat: saatMetni(),
+      dizi: $("dizi").value.trim(),
+      sirket: $("sirket").value,
+      teslimEden: $("teslimEden").value,
+      teslimAlan: $("teslimAlan").value,
+      satirlar: lines.map(function (l) {
+        var s = { barkod: l.barkod, k: l.k, r: l.r, a: l.a, b: l.b, f: fiyatSayi(l.fiyat) };
+        if ($("tur").value === "İade") { s.teslimNo = l.teslimNo; s.teslimTarihi = l.teslimTarihi; }
+        return s;
+      })
+    };
+  }
+
+  // Aynı no varsa değiştirir, yoksa ekler
+  function kayitlariBirlestir(mevcut, gelen) {
+    gelen.forEach(function (g) {
+      var i = mevcut.findIndex(function (m) { return m.no === g.no; });
+      if (i >= 0) mevcut[i] = g; else mevcut.push(g);
+    });
+    return mevcut;
+  }
+
+  // Dizi için eksik ürünler: Teslim edilenler eksi İade edilenler (barkod adedine göre)
+  // dizi boşsa tüm diziler hesaba katılır
+  function eksikHesapla(kayitlar, dizi) {
+    var anahtar = diziAnahtar(dizi);
+    var diziKayitlari = kayitlar.filter(function (k) { return !anahtar || diziAnahtar(k.dizi) === anahtar; });
+    var eksik = [];
+    diziKayitlari.filter(function (k) { return k.tur === "Teslim"; }).forEach(function (k) {
+      k.satirlar.forEach(function (s) {
+        eksik.push({ k: s.k, a: s.a, b: s.b, barkod: s.barkod, tarih: k.tarih, no: k.no });
+      });
+    });
+    diziKayitlari.filter(function (k) { return k.tur === "İade"; }).forEach(function (k) {
+      k.satirlar.forEach(function (s) {
+        var i = eksik.findIndex(function (e) { return e.barkod === s.barkod; });
+        if (i >= 0) eksik.splice(i, 1);
+      });
+    });
+    return eksik;
+  }
+
+  function eksikSatirlariYaz(tbody, eksik) {
+    tbody.textContent = "";
+    eksik.forEach(function (e) {
+      var tr = document.createElement("tr");
+      [e.k, e.a, e.b, e.barkod, e.tarih, e.no].forEach(function (v) { tr.appendChild(td(v)); });
+      tbody.appendChild(tr);
+    });
+  }
+
+  function takipDiziListesi() {
+    var sec = $("takipDizi");
+    var onceki = sec.value;
+    var gorulen = {};
+    sec.textContent = "";
+    kayitlar.forEach(function (k) {
+      var a = diziAnahtar(k.dizi);
+      if (!a || gorulen[a]) return;
+      gorulen[a] = true;
+      var o = document.createElement("option");
+      o.value = k.dizi;
+      o.textContent = k.dizi;
+      sec.appendChild(o);
+    });
+    var tercih = onceki || $("dizi").value;
+    Array.prototype.some.call(sec.options, function (o) {
+      if (diziAnahtar(o.value) === diziAnahtar(tercih)) { sec.value = o.value; return true; }
+    });
+    eksikTablosuGuncelle();
+  }
+
+  function eksikTablosuGuncelle() {
+    var eksik = eksikHesapla(kayitlar, $("takipDizi").value);
+    $("eksikSayi").textContent = "Eksik ürün sayısı: " + eksik.length;
+    eksikSatirlariYaz($("eksikTablo").tBodies[0], eksik);
+  }
+
+  function indir(dosyaAdi, icerik, tip) {
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([icerik], { type: tip }));
+    a.download = dosyaAdi;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+
+  function csvHucre(v) {
+    v = String(v == null ? "" : v);
+    return /[;"\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+  }
+
+  function bugun() {
+    var d = new Date();
+    return String(d.getDate()).padStart(2, "0") + "." + String(d.getMonth() + 1).padStart(2, "0") + "." + d.getFullYear();
+  }
+
+  function getSayac() {
+    var n = parseInt(lsGet(SAYAC_KEY), 10);
+    return n >= 0 ? n : 0;
+  }
+
+  function yil() {
+    var m = /(\d{4})\s*$/.exec($("tarih").value);
+    return m ? m[1] : String(new Date().getFullYear());
+  }
+
+  function tutanakNo() {
+    return yil() + "-" + String(getSayac() + 1).padStart(3, "0");
+  }
+
+  function baslikKaydet() {
+    var o = {};
+    alanlar.forEach(function (id) { o[id] = $(id).value; });
+    lsSet(HEADER_KEY, JSON.stringify(o));
+  }
+
+  function baslikYukle() {
+    var o = {};
+    try { o = JSON.parse(lsGet(HEADER_KEY)) || {}; } catch (e) { o = {}; }
+    alanlar.forEach(function (id) { $(id).value = o[id] || ""; });
+    if (!$("tarih").value) $("tarih").value = bugun();
+  }
+
+  function mesaj(metin, tur) {
+    var el = $("mesaj");
+    el.textContent = metin;
+    el.className = tur || "";
+  }
+
+  function basliklariGuncelle() {
+    $("tutanakNo").value = tutanakNo();
+    $("sayac").value = getSayac();
+    $("pNo").textContent = $("tutanakNo").value;
+    $("pTur").textContent = $("tur").value.toLocaleUpperCase("tr");
+    $("pTarih").textContent = $("tarih").value;
+    $("pTarih2").textContent = $("tarih").value;
+    document.querySelectorAll(".pTarih3").forEach(function (e) { e.textContent = $("tarih").value; });
+    $("pDizi").textContent = $("dizi").value;
+    $("pSirket").textContent = $("sirket").value;
+    $("pEden").textContent = $("teslimEden").value;
+    $("pAlan").textContent = $("teslimAlan").value;
+    yazdirmaTablosu();
+    kodlariCiz();
+  }
+
+  function fiyatSayi(t) {
+    t = String(t).trim();
+    // "1799.9" noktalı ondalık, "1.799,90" Türkçe biçim
+    var n = /^\d+\.\d{1,2}$/.test(t) ? parseFloat(t) : parseFloat(t.replace(/\./g, "").replace(",", "."));
+    return isNaN(n) ? null : n;
+  }
+
+  function para(n) {
+    return n.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  // Baskı tablosu sütunları; İade tutanağında Renk ve Beden'den sonra teslim bilgisi eklenir
+  var TESLIM_SUTUNLARI = [["Sıra", "9mm"], ["Stok Kodu", "24mm"], ["Ürün Açıklaması", ""], ["Renk", "24mm"], ["Beden", "14mm"], ["Adet", "11mm"], ["Güncel Satış Fiyatı (₺)", "22mm"], ["Tutar (₺)", "22mm"]];
+  var IADE_SUTUNLARI = [["Sıra", "8mm"], ["Stok Kodu", "21mm"], ["Ürün Açıklaması", ""], ["Renk", "18mm"], ["Beden", "12mm"], ["Teslim No", "17mm"], ["Teslim Tarihi", "19mm"], ["Adet", "9mm"], ["Güncel Satış Fiyatı (₺)", "19mm"], ["Tutar (₺)", "19mm"]];
+
+  // Ürün adından kod, renk ve cinsiyet gibi tabloda zaten yazan kelimeleri çıkarır, uzunu keser
+  function kisaAd(l) {
+    var ad = (l.n || "").replace(new RegExp(l.k, "gi"), " ");
+    if (l.a) ad = ad.replace(new RegExp(l.a, "gi"), " ");
+    ad = ad.replace(/\b(erkek|slim fit|regular fit)\b/gi, " ").replace(/\s+/g, " ").trim();
+    return ad.length > 40 ? ad.slice(0, 40).replace(/\s+\S*$/, "") + "…" : ad;
+  }
+
+  // Baskı tablosu: en az 8 satır, fazlası ikinci sayfaya devam eder
+  function yazdirmaTablosu() {
+    var iade = $("tur").value === "İade";
+    $("pUrunTablo").classList.toggle("dar", iade);
+    var sutunlar = iade ? IADE_SUTUNLARI : TESLIM_SUTUNLARI;
+    $("pKolonlar").textContent = "";
+    $("pBasliklar").textContent = "";
+    sutunlar.forEach(function (c) {
+      var col = document.createElement("col");
+      if (c[1]) col.style.width = c[1];
+      $("pKolonlar").appendChild(col);
+      var th = document.createElement("th");
+      th.textContent = c[0];
+      $("pBasliklar").appendChild(th);
+    });
+    $("pToplamEtiket").colSpan = sutunlar.length - 1;
+
+    var tbody = $("pUrunler");
+    tbody.textContent = "";
+    var toplam = 0, fiyatVar = false;
+    for (var i = 0; i < Math.max(8, lines.length); i++) {
+      var l = lines[i];
+      var tr = document.createElement("tr");
+      var f = l ? fiyatSayi(l.fiyat) : null;
+      if (f !== null) { toplam += f; fiyatVar = true; }
+      tr.appendChild(td(i + 1, "orta"));
+      tr.appendChild(td(l ? l.k : ""));
+      tr.appendChild(td(l ? kisaAd(l) : ""));
+      tr.appendChild(td(l ? l.a : ""));
+      tr.appendChild(td(l ? l.b : "", "orta"));
+      if (iade) {
+        tr.appendChild(td(l ? l.teslimNo : "", "orta"));
+        tr.appendChild(td(l ? l.teslimTarihi : "", "orta"));
+      }
+      tr.appendChild(td(l ? 1 : "", "orta"));
+      tr.appendChild(td(f !== null ? para(f) : "", "sag"));
+      tr.appendChild(td(f !== null ? para(f) : "", "sag"));
+      tbody.appendChild(tr);
+    }
+    $("pToplam").textContent = fiyatVar ? para(toplam) : "";
+  }
+
+  function td(metin, sinif) {
+    var c = document.createElement("td");
+    c.textContent = metin;
+    if (sinif) c.className = sinif;
+    return c;
+  }
+
+  function satirlariCiz() {
+    var tbody = $("satirlar");
+    tbody.textContent = "";
+    lines.forEach(function (l, i) {
+      var tr = document.createElement("tr");
+      tr.appendChild(td(i + 1, "no"));
+      [l.k, l.r, l.a, l.b, l.barkod, l.teslimNo, l.teslimTarihi].forEach(function (v) { tr.appendChild(td(v)); });
+      if (l.bulunamadi) tr.className = "uyari";
+
+      var fiyat = td(l.fiyat, "fiyat");
+      fiyat.contentEditable = "true";
+      fiyat.addEventListener("input", function () { l.fiyat = fiyat.textContent; yazdirmaTablosu(); });
+      tr.appendChild(fiyat);
+
+      var son = document.createElement("td");
+      son.className = "del-col ekran";
+      var sil = document.createElement("button");
+      sil.type = "button";
+      sil.className = "del";
+      sil.textContent = "Sil";
+      sil.addEventListener("click", function () {
+        lines.splice(i, 1);
+        satirlariCiz();
+        $("barkod").focus();
+      });
+      son.appendChild(sil);
+      tr.appendChild(son);
+      tbody.appendChild(tr);
+    });
+    yazdirmaTablosu();
+    kodlariCiz();
+    $("ozet").textContent = "Satır sayısı: " + lines.length + "  |  Toplam adet: " + lines.length;
+  }
+
+  // İade için: bu barkodu içeren ve henüz iade edilmemiş ilk Teslim kaydı (bu tutanak hariç)
+  function teslimKaydiBul(kod) {
+    var no = $("tutanakNo").value;
+    var diger = kayitlar.filter(function (k) { return k.no !== no; });
+    var adaylar = eksikHesapla(diger, $("dizi").value).filter(function (e) { return e.barkod === kod; });
+    lines.forEach(function (l) {
+      var i = l.barkod === kod && l.teslimNo ? adaylar.findIndex(function (e) { return e.no === l.teslimNo; }) : -1;
+      if (i >= 0) adaylar.splice(i, 1);
+    });
+    return adaylar[0] || null;
+  }
+
+  function barkodOkut(kod) {
+    var u = VERI[kod];
+    if (!u) {
+      mesaj("Barkod bulunamadı: " + kod, "hata");
+      return;
+    }
+    var satir = { k: u.k, r: u.r, a: u.a, b: u.b, n: u.n, barkod: kod, fiyat: typeof u.f === "number" ? para(u.f) : "", teslimNo: "", teslimTarihi: "" };
+    var ek = "";
+    if ($("tur").value === "İade") {
+      var teslim = teslimKaydiBul(kod);
+      satir.bulunamadi = !teslim;
+      if (teslim) {
+        satir.teslimNo = teslim.no;
+        satir.teslimTarihi = teslim.tarih;
+        ek = " / Teslim No: " + teslim.no;
+      }
+    }
+    lines.push(satir);
+    if (satir.bulunamadi) mesaj("Bu barkod teslim kaydında yok ya da zaten iade alındı", "hata");
+    else mesaj("Eklendi: " + u.k + " / " + u.r + " / " + u.b + ek, "tamam");
+    satirlariCiz();
+    taslagiKaydet();
+  }
+
+  // Fotoğraftan okuma: el yazısı stok kodu OCR'ı (ElYazisiOCR). Fotoğraf tarayıcıdan dışarı çıkmaz, ağ isteği yoktur.
+  // Dosyalar aynı klasördeki elyazisi/ klasöründen, ilk fotoğrafta tembel yüklenir.
+  var elyaziYuklemesi = null;
+  function scriptYukle(yol) {
+    return new Promise(function (coz, reddet) {
+      var etiket = document.createElement("script");
+      etiket.src = yol;
+      etiket.onload = coz;
+      etiket.onerror = function () { reddet(new Error(yol + " yüklenemedi")); };
+      document.head.appendChild(etiket);
+    });
+  }
+  function elyaziYukle() {
+    if (!elyaziYuklemesi) {
+      elyaziYuklemesi = scriptYukle("elyazisi/model.js")
+        .then(function () { return scriptYukle("elyazisi/elyazisi-ocr.js"); })
+        .catch(function (e) { elyaziYuklemesi = null; throw e; });
+    }
+    return elyaziYuklemesi;
+  }
+
+  var barkodDizini = null;
+  function barkodDizinindeAra() {
+    if (barkodDizini) return barkodDizini;
+    barkodDizini = {};
+    Object.keys(VERI).forEach(function (kod) {
+      var u = VERI[kod];
+      (barkodDizini[u.k] = barkodDizini[u.k] || []).push({ barkod: kod, a: u.a, b: u.b });
+    });
+    return barkodDizini;
+  }
+
+  // OCR'ın geçerli kod listesi: ürün listesindeki benzersiz stok kodları (ilk kullanımda bir kez hazırlanır)
+  var elyaziKodlari = null;
+  function elyaziKodListesi() {
+    if (!elyaziKodlari) elyaziKodlari = Object.keys(barkodDizinindeAra());
+    return elyaziKodlari;
+  }
+
+  // ---- Onay paneli: "sor" satırları ve birden çok renk/bedeni olan kodlar kullanıcıya sorulur; hiçbir şey sessizce eklenmez
+  var ocrDurum = { eklenen: 0, bekleyen: 0, uyari: "" };
+  var ocrPanel = null;
+  function ocrStil(el, css) { el.style.cssText = css; return el; }
+  function ocrEleman(etiket, metin, css) {
+    var el = document.createElement(etiket);
+    if (metin !== undefined && metin !== null) el.textContent = metin;
+    if (css) ocrStil(el, css);
+    return el;
+  }
+  function ocrPaneliHazirla() {
+    if (!ocrPanel) {
+      ocrPanel = document.createElement("div");
+      ocrPanel.id = "ocrOnay";
+      ocrPanel.className = "ekran";
+      var hedef = $("mesaj");
+      hedef.parentNode.insertBefore(ocrPanel, hedef.nextSibling);
+    }
+    return ocrPanel;
+  }
+  function ocrOzetYaz() {
+    var ozet = ocrDurum.eklenen + " ürün eklendi, " + ocrDurum.bekleyen + " satır onay bekliyor.";
+    if (ocrDurum.uyari) ozet += " " + ocrDurum.uyari;
+    mesaj(ozet, ocrDurum.bekleyen ? "hata" : "tamam");
+    if (ocrPanel) ocrPanel.hidden = ocrDurum.bekleyen === 0;
+  }
+  function ocrHucreResmi(goruntu, kutu, yukseklik) {
+    var c = document.createElement("canvas");
+    if (!goruntu || !goruntu.canvas || !kutu || kutu.w <= 0 || kutu.h <= 0) return c;
+    var o = yukseklik / kutu.h;
+    c.width = Math.max(1, Math.round(kutu.w * o));
+    c.height = yukseklik;
+    c.getContext("2d").drawImage(goruntu.canvas, kutu.x, kutu.y, kutu.w, kutu.h, 0, 0, c.width, c.height);
+    ocrStil(c, "border:1px solid #d5d8dd;background:#fff;max-width:100%");
+    return c;
+  }
+  function ocrAdetSayi(deger) {
+    var n = parseInt(deger, 10);
+    return isNaN(n) || n < 1 ? 1 : Math.min(n, 999);
+  }
+  function ocrSatiriKapat(kutu) {
+    if (kutu.parentNode) kutu.parentNode.removeChild(kutu);
+    ocrDurum.bekleyen--;
+    ocrOzetYaz();
+  }
+  function ocrBarkodlariEkle(liste, adet) {
+    for (var i = 0; i < adet; i++) barkodOkut(liste.barkod);
+    ocrDurum.eklenen += adet;
+  }
+
+  // Bir stok kodunu adet kadar ekler; birden çok renk/beden varsa panelde seçtirir. Dönüş: eklendiyse true, onay bekliyorsa false.
+  function ocrKodEkle(kod, adet, goruntu, satir) {
+    var secenekler = barkodDizinindeAra()[kod] || [];
+    if (secenekler.length === 0) {
+      mesaj("Kod ürün listesinde yok: " + kod, "hata");
+      return true;
+    }
+    if (secenekler.length === 1) {
+      ocrBarkodlariEkle(secenekler[0], adet);
+      return true;
+    }
+    ocrVaryantSor(kod, adet, secenekler, goruntu, satir);
+    return false;
+  }
+
+  function ocrVaryantSor(kod, adet, secenekler, goruntu, satir) {
+    var panel = ocrPaneliHazirla();
+    var kutu = ocrEleman("div", null, "display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;border-top:1px solid #d5d8dd;padding:10px 0");
+    if (satir) kutu.appendChild(ocrHucreResmi(goruntu, satir.hucreKutusu, 40));
+    var sag = ocrEleman("div", null, "flex:1;min-width:200px");
+    sag.appendChild(ocrEleman("div", kod + " için renk/beden seçin (adet: " + adet + ")", "font-weight:bold;margin-bottom:6px"));
+    secenekler.forEach(function (u) {
+      var d = ocrEleman("button", (u.a || "-") + " / " + (u.b || "-"), "margin:0 6px 6px 0");
+      d.type = "button";
+      d.className = "ikinci";
+      d.addEventListener("click", function () {
+        ocrBarkodlariEkle(u, adet);
+        ocrSatiriKapat(kutu);
+      });
+      sag.appendChild(d);
+    });
+    var atla = ocrEleman("button", "Atla", "margin:0 6px 6px 0");
+    atla.type = "button";
+    atla.addEventListener("click", function () { ocrSatiriKapat(kutu); });
+    sag.appendChild(atla);
+    kutu.appendChild(sag);
+    panel.appendChild(kutu);
+    ocrDurum.bekleyen++;
+  }
+
+  // "sor" satırı (ya da adedi belirsiz satır): hücre küçük resmi, ilk 3 aday ve "Atla"
+  function ocrSatirSor(satir, goruntu) {
+    var panel = ocrPaneliHazirla();
+    var kutu = ocrEleman("div", null, "display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;border-top:1px solid #d5d8dd;padding:10px 0");
+    var sol = ocrEleman("div", null, "min-width:120px");
+    sol.appendChild(ocrEleman("div", "Satır " + satir.sira, "font-size:13px;color:#555;margin-bottom:4px"));
+    sol.appendChild(ocrHucreResmi(goruntu, satir.hucreKutusu, 40));
+    kutu.appendChild(sol);
+
+    var ortaAdet = ocrEleman("div", null, "min-width:90px");
+    ortaAdet.appendChild(ocrEleman("div", "Adet", "font-size:13px;color:#555;margin-bottom:4px"));
+    ortaAdet.appendChild(ocrHucreResmi(goruntu, satir.adetKutusu, 28));
+    var adetGiris = document.createElement("input");
+    adetGiris.type = "number";
+    adetGiris.min = "1";
+    adetGiris.max = "999";
+    // adet okuması belirsizse varsayılan 1 olur (okunan değer notta görünür); kullanıcı düzeltir
+    adetGiris.value = String(satir.adet.durum === "sor" ? 1 : ocrAdetSayi(satir.adet.deger));
+    ocrStil(adetGiris, "display:block;width:80px;margin-top:4px");
+    adetGiris.setAttribute("aria-label", "Adet");
+    ortaAdet.appendChild(adetGiris);
+    if (satir.adet.durum === "sor") ortaAdet.appendChild(ocrEleman("div", "Adet belirsiz (okunan: " + (satir.adet.ham || "?") + "), kontrol edin", "font-size:12px;color:#b42318;margin-top:2px"));
+    kutu.appendChild(ortaAdet);
+
+    var sag = ocrEleman("div", null, "flex:1;min-width:220px");
+    var adaylar = (satir.stok.aday || []).slice(0, 3);
+    sag.appendChild(ocrEleman("div",
+      adaylar.length ? "Okunan: " + (satir.stok.ham || "?") + " - doğru kodu seçin" : "Okunamadı (ham: " + (satir.stok.ham || "-") + ")",
+      "font-weight:bold;margin-bottom:6px"));
+    adaylar.forEach(function (a) {
+      var d = ocrEleman("button", a.kod, "margin:0 6px 6px 0");
+      d.type = "button";
+      d.className = "ikinci";
+      d.addEventListener("click", function () {
+        var adet = ocrAdetSayi(adetGiris.value);
+        ocrKodEkle(a.kod, adet, goruntu, satir);   // birden çok renk/beden varsa ayrı soru satırı açılır
+        ocrSatiriKapat(kutu);
+      });
+      sag.appendChild(d);
+    });
+    var hicbiri = ocrEleman("button", adaylar.length ? "Hiçbiri" : "Atla", "margin:0 6px 6px 0");
+    hicbiri.type = "button";
+    hicbiri.addEventListener("click", function () { ocrSatiriKapat(kutu); });
+    sag.appendChild(hicbiri);
+    kutu.appendChild(sag);
+    panel.appendChild(kutu);
+    ocrDurum.bekleyen++;
+  }
+
+  function ocrSonucuIsle(goruntu, s) {
+    ocrDurum = { eklenen: 0, bekleyen: 0, uyari: "" };
+    var panel = ocrPaneliHazirla();
+    panel.textContent = "";
+    panel.appendChild(ocrEleman("div", "Onay bekleyen satırlar", "font-weight:bold;margin-top:8px"));
+    panel.hidden = false;
+    if (s.uyari && s.uyari.length) ocrDurum.uyari = "Uyarı: " + s.uyari.join("; ") + ".";
+    if (!s.satirlar || s.satirlar.length === 0) {
+      panel.hidden = true;
+      mesaj("Fotoğraftan satır okunamadı." + (ocrDurum.uyari ? " " + ocrDurum.uyari : "") + " Ürünleri elle okutun.", "hata");
+      return;
+    }
+    s.satirlar.forEach(function (satir) {
+      if (satir.stok.durum === "bos") return;
+      var adetTamam = satir.adet.durum !== "sor" && satir.adet.deger >= 1 && satir.adet.deger <= 99;
+      if (satir.stok.durum === "kabul" && adetTamam && satir.stok.secilen) {
+        ocrKodEkle(satir.stok.secilen, satir.adet.deger, goruntu, satir);
+      } else {
+        ocrSatirSor(satir, goruntu);
+      }
+    });
+    ocrOzetYaz();
+  }
+
+  $("fotoGir").addEventListener("change", function () {
+    var dosya = this.files && this.files[0];
+    if (!dosya) return;
+    mesaj("Fotoğraf okunuyor, birkaç saniye sürebilir…", "");
+    elyaziYukle()
+      .then(function () {
+        return new Promise(function (coz, reddet) {
+          window.ElYazisiOCR.dosyadanGoruntu(dosya, 2000, function (hata, goruntu) { if (hata) reddet(hata); else coz(goruntu); });
+        });
+      })
+      .then(function (goruntu) {
+        // ilk ileti ekrana çizilsin diye bir an beklenir; okuma tarayıcı iş parçacığını bir süre tutar
+        return new Promise(function (coz) { setTimeout(coz, 30); }).then(function () {
+          ocrSonucuIsle(goruntu, window.ElYazisiOCR.oku(goruntu, elyaziKodListesi()));
+        });
+      })
+      .catch(function (e) { mesaj("Fotoğraf okunamadı: " + (e && e.message || e), "hata"); })
+      .then(function () { $("fotoGir").value = ""; });
+  });
+
+  $("barkod").addEventListener("keydown", function (e) {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    var kod = this.value.trim();
+    this.value = "";
+    if (kod) barkodOkut(kod);
+    this.focus();
+  });
+
+  alanlar.forEach(function (id) {
+    $(id).addEventListener("input", function () {
+      baslikKaydet();
+      basliklariGuncelle();
+    });
+  });
+
+  $("yeniTutanak").addEventListener("click", function () {
+    if (lines.length && !confirm("Mevcut satırlar silinecek ve yeni tutanağa geçilecek. Devam edilsin mi?")) return;
+    lsSet(SAYAC_KEY, String(getSayac() + 1));
+    lines = [];
+    satirlariCiz();
+    basliklariGuncelle();
+    mesaj("", "");
+    $("barkod").focus();
+  });
+
+  $("sayacKaydet").addEventListener("click", function () {
+    var n = parseInt($("sayac").value, 10);
+    if (!(n >= 0)) { mesaj("Geçerli bir sayı girin.", "hata"); return; }
+    lsSet(SAYAC_KEY, String(n));
+    basliklariGuncelle();
+    mesaj("Sıra ayarlandı. Sıradaki tutanak: " + $("tutanakNo").value, "tamam");
+    $("barkod").focus();
+  });
+
+  $("tur").addEventListener("change", basliklariGuncelle);
+
+  // Baskı anında: saat bilgisayar saatinden, İade ise eksik ürün eki hesaplanır
+  function yazdirmaHazirla() {
+    kayitKodu(true);
+    basliklariGuncelle();
+    $("pSaat").textContent = saatMetni();
+    document.title = dosyaAdi();
+    var iade = $("tur").value === "İade";
+    $("pEksik").hidden = !iade;
+    if (!iade) return;
+    var kayit = mevcutKayit();
+    var eksik = eksikHesapla(kayitlariBirlestir(kayitlar.slice(), [kayit]), kayit.dizi);
+    $("pEksikNo").textContent = kayit.no;
+    $("pEksikDizi").textContent = kayit.dizi;
+    $("pEksikYok").hidden = eksik.length > 0;
+    $("pEksikTablo").hidden = eksik.length === 0;
+    eksikSatirlariYaz($("pEksikTablo").tBodies[0], eksik);
+  }
+
+  window.addEventListener("beforeprint", yazdirmaHazirla);
+
+  // İkinci nüsha: birinci sayfanın kopyası, kimlikleri silinmiş, yalnız nüsha yazısı farklı
+  function nushaHazirla() {
+    document.querySelectorAll(".yazdir.nusha2").forEach(function (e) { e.remove(); });
+    document.querySelector(".yazdir .pNusha").textContent = "1 / 2";
+    document.querySelector(".yazdir .nNot").textContent = "Şirket nüshası (bizde kalır)";
+    if (!$("ikiNusha").checked) return;
+    var kopya = document.querySelector(".yazdir").cloneNode(true);
+    kopya.classList.add("nusha2");
+    kopya.querySelectorAll("[id]").forEach(function (e) { e.removeAttribute("id"); });
+    kopya.querySelector(".pNusha").textContent = "2 / 2";
+    kopya.querySelector(".nNot").textContent = "Karşı taraf nüshası (teslim alanda kalır)";
+    document.querySelector(".yazdir").after(kopya);
+  }
+  window.addEventListener("beforeprint", nushaHazirla);
+
+  $("yazdir").addEventListener("click", function () {
+    yazdirmaHazirla();
+    window.print();
+  });
+
+  $("kaydet").addEventListener("click", function () {
+    var kayit = mevcutKayit();
+    if (!kayit.dizi) { mesaj("Kaydetmek için dizi adını girin.", "hata"); return; }
+    if (!kayit.satirlar.length) { mesaj("Kaydedilecek ürün satırı yok.", "hata"); return; }
+    kayitlariSakla(kayitlariBirlestir(kayitlar.slice(), [kayit])).then(function (tamam) {
+      if (!tamam) return;
+      takipDiziListesi();
+      if (klasor) klasoreYaz(kayit.no + ".json", JSON.stringify(kayit, null, 2)).catch(function () { mesaj("Tutanak dosyası klasöre yazılamadı.", "hata"); });
+      mesaj(DOSYA_DESTEGI ? "Kaydedildi: " + kayit.no : "Kaydedildi (yalnızca bellekte: Yedek al ile dosyayı kaydetmeyi unutmayın)", "tamam");
+    });
+  });
+
+  $("takipDizi").addEventListener("change", eksikTablosuGuncelle);
+
+  $("eksikCsv").addEventListener("click", function () {
+    var eksik = eksikHesapla(kayitlar, $("takipDizi").value);
+    var satirlar = [["Stok Kodu", "Renk", "Beden", "Barkod", "Teslim Tarihi", "Teslim No"]].concat(
+      eksik.map(function (e) { return [e.k, e.a, e.b, e.barkod, e.tarih, e.no]; }));
+    var csv = "\uFEFF" + satirlar.map(function (s) { return s.map(csvHucre).join(";"); }).join("\r\n") + "\r\n";
+    indir("eksik-urunler.csv", csv, "text/csv;charset=utf-8");
+  });
+
+  $("nebimIndir").addEventListener("click", function () {
+    if (typeof window.nebimIndir !== "function") { mesaj("Nebim dışa aktarma modülü (nebim-xlsx.js) yüklenemedi.", "hata"); return; }
+    if (!lines.length) { mesaj("Nebim dosyası için ürün satırı yok.", "hata"); return; }
+    window.nebimIndir(lines.map(function (l) { return { k: l.k, r: l.r, b: l.b }; }), dosyaAdi() + ".xlsx");
+  });
+
+  $("yedekIndir").addEventListener("click", function () {
+    indir("takip-yedek-" + bugun().replace(/\./g, "-") + ".json", kayitMetni(kayitlar), "application/json");
+  });
+
+  $("yedekYukle").addEventListener("change", function () {
+    var secilen = this.files[0];
+    var girdi = this;
+    if (!secilen) return;
+    secilen.text().then(function (metin) {
+      var gelen = kayitlariAyristir(metin);
+      return kayitlariSakla(kayitlariBirlestir(kayitlar.slice(), gelen)).then(function (tamam) {
+        if (!tamam) return;
+        takipDiziListesi();
+        mesaj("Yedek yüklendi: " + gelen.length + " kayıt işlendi.", "tamam");
+      });
+    }).catch(function () {
+      mesaj("Yedek dosyası okunamadı veya biçimi geçersiz.", "hata");
+    }).then(function () { girdi.value = ""; });
+  });
+
+  function saatiYaz() {
+    $("saat").textContent = new Date().toLocaleTimeString("tr-TR");
+  }
+
+  $("klasorBagla").addEventListener("click", klasorBagla);
+  if (!DOSYA_DESTEGI) $("klasorBagla").hidden = true;
+  dosyaDurumuYaz();
+
+  function rehberiAc() { $("rehber").hidden = false; $("rehberKapat").focus(); }
+  function rehberiKapat() {
+    if ($("rehberGizle").checked) lsSet(REHBER_KEY, "1");
+    $("rehber").hidden = true;
+  }
+  $("rehberAc").addEventListener("click", rehberiAc);
+  $("rehberKapat").addEventListener("click", rehberiKapat);
+  if (lsGet(REHBER_KEY) !== "1") rehberiAc();
+
+  saatiYaz();
+  setInterval(saatiYaz, 1000);
+  baslikYukle();
+  basliklariGuncelle();
+  satirlariCiz();
+  takipDiziListesi();
+  $("barkod").focus();
+})();
+</script>
+</body>
+</html>

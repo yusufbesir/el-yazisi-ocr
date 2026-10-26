@@ -1,0 +1,54 @@
+{
+  "name": "tutanak-doldurucu",
+  "productName": "Tutanak Doldurucu",
+  "version": "2.0.0",
+  "description": "Sponsorluk ürün teslim tutanağı hazırlama programı (masaüstü)",
+  "author": "Tutanak Doldurucu",
+  "homepage": "https://tutanak.invalid/",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "kopyala": "node scripts/kopyala.js",
+    "start": "npm run kopyala && electron .",
+    "dist:dir": "npm run kopyala && electron-builder --win --x64 --dir --publish never",
+    "dist:win": "npm run kopyala && electron-builder --win --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "43.7.6",
+    "electron-builder": "26.15.3",
+    "png2icons": "2.0.1",
+    "resedit": "3.0.2"
+  },
+  "build": {
+    "appId": "com.tutanak.doldurucu",
+    "productName": "Tutanak Doldurucu",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": ["main.js", "preload.js", "app/**/*", "build/icon.png", "package.json"],
+    "asar": true,
+    "publish": null,
+    "icon": "build/icon.png",
+    "afterPack": "build/afterpack.js",
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": false,
+      "installerLanguages": ["tr_TR"],
+      "language": "1055",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico",
+      "artifactName": "Tutanak-Doldurucu-Kurulum-${version}.exe"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+    "python":  "D:\\Programlar\\El-Yazisi-OCR\\venv\\Scripts\\python.exe",
+    "_not":  "yazan: [Claude#RKxwbX] · [İP:El yazısı OCR#RKxwbX] · 2026-10-25 · Yusuf\u0027a ait, eğitim amaçlı; değiştirme: yalnız bu iş parçacığı",
+    "det_model":  null,
+    "rec_model":  null,
+    "_ayar":  "det_model/rec_model null = PaddleOCR varsayılanı (PP-OCRv6_medium det+rec); cnn_model yoksa egitim/model.json. Tur 3 ölçümünde mobile_det+server_rec doğrulukta eşit, hız kazancı küçük, bir satırı kaçırdı."
+}

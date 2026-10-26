@@ -1,0 +1,213 @@
+<!doctype html>
+<!-- yazan: [Claude#RKxwbX] · [İP:El yazısı OCR#RKxwbX] · 2026-10-25 · Yusuf'a ait, eğitim amaçlı; değiştirme: yalnız bu iş parçacığı -->
+<!-- Tek dosyalık deneme sayfası: tutanak fotoğrafındaki el yazısı stok kodlarını ve adetleri okur. file:// ile açılır; ağ isteği yoktur, fotoğraf tarayıcıdan çıkmaz. -->
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El yazısı stok kodu OCR - deneme</title>
+<style>
+  body { font-family: system-ui, "Segoe UI", Arial, sans-serif; margin: 0; padding: 16px; background: #fff; color: #1f2933; }
+  h1 { font-size: 22px; margin: 0 0 4px; color: #0F766E; }
+  p.not { margin: 0 0 14px; color: #52606d; font-size: 14px; }
+  .satir { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+  button { font: inherit; padding: 8px 16px; border: 1px solid #0F766E; background: #0F766E; color: #fff; border-radius: 6px; cursor: pointer; }
+  button:disabled { background: #9aa5b1; border-color: #9aa5b1; cursor: default; }
+  button.ikinci { background: #fff; color: #0F766E; }
+  input[type=file] { font: inherit; }
+  #durum { min-height: 22px; margin-bottom: 8px; font-weight: bold; }
+  #durum.hata { color: #b42318; }
+  #uyarilar { color: #b54708; margin: 0 0 10px; font-size: 14px; }
+  table { border-collapse: collapse; width: 100%; max-width: 980px; }
+  th, td { border: 1px solid #cbd2d9; padding: 6px 8px; text-align: left; vertical-align: middle; }
+  th { background: #f0f4f8; font-size: 14px; }
+  tr.kabul td { background: #e6f4ea; }
+  tr.sor td { background: #fff8e1; }
+  tr.bos td { background: #eceff1; color: #6b7785; }
+  td canvas { display: block; border: 1px solid #cbd2d9; background: #fff; max-width: 220px; }
+  label.aday { display: block; margin: 2px 0; cursor: pointer; }
+  input.adet { width: 64px; font: inherit; padding: 3px 4px; }
+  textarea { width: 100%; max-width: 980px; height: 140px; box-sizing: border-box; font-family: ui-monospace, Consolas, monospace; margin-top: 8px; }
+  :focus-visible { outline: 3px solid #0F766E; outline-offset: 1px; }
+</style>
+</head>
+<body>
+<h1>El yazısı stok kodu OCR</h1>
+<p class="not">Tutanak fotoğrafını seçin ve "Oku"ya basın. Fotoğraf bu bilgisayardan çıkmaz. Emin olunmayan satırlar için doğru kodu siz seçersiniz; hiçbir kod sizin onayınız olmadan listeye girmez.</p>
+
+<div class="satir">
+  <input type="file" id="dosya" accept="image/*">
+  <button type="button" id="oku" disabled>Oku</button>
+</div>
+<div id="durum" role="status"></div>
+<div id="uyarilar"></div>
+
+<div id="sonuc" hidden>
+  <table>
+    <thead><tr><th>Sıra</th><th>Hücre görüntüsü</th><th>Okunan kod</th><th>Güven</th><th>Durum</th><th>Adet</th></tr></thead>
+    <tbody id="govde"></tbody>
+  </table>
+  <div class="satir" style="margin-top:12px">
+    <button type="button" id="listele">Seçilenleri listele</button>
+  </div>
+  <textarea id="cikti" readonly aria-label="Seçilen kodlar ve adetler" placeholder="Seçilen kodlar burada görünür (kod, sekme, adet)"></textarea>
+</div>
+
+<script src="js/model.js"></script>
+<script src="js/elyazisi-ocr.js"></script>
+<script src="ornekler/stok-kodlari.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var goruntu = null;
+  var satirlar = [];      // { s: OCR satırı, kabulKutusu: input, radyolar: [], adetGiris: input }
+
+  function durumYaz(metin, hata) {
+    $("durum").textContent = metin;
+    $("durum").className = hata ? "hata" : "";
+  }
+
+  function hucreResmi(kutu, yukseklik) {
+    var c = document.createElement("canvas");
+    if (!goruntu || !goruntu.canvas || !kutu || kutu.w <= 0 || kutu.h <= 0) return c;
+    var o = yukseklik / kutu.h;
+    c.width = Math.max(1, Math.round(kutu.w * o));
+    c.height = yukseklik;
+    c.getContext("2d").drawImage(goruntu.canvas, kutu.x, kutu.y, kutu.w, kutu.h, 0, 0, c.width, c.height);
+    return c;
+  }
+
+  function hucre(tr, metin) {
+    var td = document.createElement("td");
+    if (metin !== null && metin !== undefined) td.textContent = metin;
+    tr.appendChild(td);
+    return td;
+  }
+
+  function guvenMetni(g) {
+    return (typeof g === "number" && isFinite(g)) ? (Math.round(g * 100) + " %") : "-";
+  }
+
+  function tabloyuDoldur(sonuc) {
+    var govde = $("govde");
+    govde.textContent = "";
+    satirlar = [];
+    sonuc.satirlar.forEach(function (s, i) {
+      var tr = document.createElement("tr");
+      var durum = s.stok.durum;
+      tr.className = durum;
+      hucre(tr, String(s.sira));
+      var gorsel = hucre(tr, null);
+      gorsel.appendChild(hucreResmi(s.hucreKutusu, 36));
+
+      var kodHucre = hucre(tr, null);
+      var kayit = { s: s, radyolar: [], adetGiris: null };
+      if (durum === "kabul") {
+        kodHucre.textContent = s.stok.secilen;
+      } else if (durum === "sor") {
+        var ad = "aday" + i;
+        var adaylar = (s.stok.aday || []).slice(0, 3);
+        adaylar.forEach(function (a) {
+          var lab = document.createElement("label");
+          lab.className = "aday";
+          var r = document.createElement("input");
+          r.type = "radio";
+          r.name = ad;
+          r.value = a.kod;
+          lab.appendChild(r);
+          lab.appendChild(document.createTextNode(" " + a.kod));
+          kodHucre.appendChild(lab);
+          kayit.radyolar.push(r);
+        });
+        var lab2 = document.createElement("label");
+        lab2.className = "aday";
+        var r2 = document.createElement("input");
+        r2.type = "radio";
+        r2.name = ad;
+        r2.value = "";
+        r2.checked = true;
+        lab2.appendChild(r2);
+        lab2.appendChild(document.createTextNode(" Hiçbiri"));
+        kodHucre.appendChild(lab2);
+        kayit.radyolar.push(r2);
+      } else {
+        kodHucre.textContent = "(boş)";
+      }
+
+      hucre(tr, durum === "bos" ? "-" : guvenMetni(s.stok.guven));
+      hucre(tr, durum === "kabul" ? "kabul" : (durum === "sor" ? "sor: emin değil" : "boş"));
+
+      var adetHucre = hucre(tr, null);
+      if (durum !== "bos") {
+        var gir = document.createElement("input");
+        gir.type = "number";
+        gir.className = "adet";
+        gir.min = "1";
+        gir.value = String(s.adet.deger >= 1 ? s.adet.deger : 1);
+        gir.setAttribute("aria-label", "Adet, satır " + s.sira);
+        adetHucre.appendChild(gir);
+        if (s.adet.durum === "sor") adetHucre.appendChild(document.createTextNode(" (adet belirsiz, kontrol edin)"));
+        kayit.adetGiris = gir;
+      }
+      satirlar.push(kayit);
+      govde.appendChild(tr);
+    });
+    $("sonuc").hidden = false;
+    $("cikti").value = "";
+  }
+
+  function sonucuIsle(sonuc) {
+    $("uyarilar").textContent = sonuc.uyari && sonuc.uyari.length ? "Uyarı: " + sonuc.uyari.join("; ") : "";
+    var kabul = 0, sor = 0;
+    sonuc.satirlar.forEach(function (s) {
+      if (s.stok.durum === "kabul") kabul++;
+      else if (s.stok.durum === "sor") sor++;
+    });
+    durumYaz(sonuc.satirlar.length + " satır okundu (" + kabul + " kabul, " + sor + " sor) - süre: " + sonuc.sure_ms + " ms", false);
+    tabloyuDoldur(sonuc);
+  }
+
+  $("dosya").addEventListener("change", function () {
+    $("oku").disabled = !(this.files && this.files[0]);
+  });
+
+  $("oku").addEventListener("click", function () {
+    var f = $("dosya").files && $("dosya").files[0];
+    if (!f) return;
+    $("oku").disabled = true;
+    $("sonuc").hidden = true;
+    durumYaz("Fotoğraf okunuyor…", false);
+    window.ElYazisiOCR.dosyadanGoruntu(f, 2000, function (hata, g) {
+      if (hata) { durumYaz("Fotoğraf açılamadı: " + (hata.message || hata), true); $("oku").disabled = false; return; }
+      goruntu = g;
+      setTimeout(function () {
+        try {
+          sonucuIsle(window.ElYazisiOCR.oku(g, window.STOK_KODLARI || []));
+        } catch (e) {
+          durumYaz("Okuma başarısız: " + (e && e.message || e), true);
+        }
+        $("oku").disabled = false;
+      }, 30);
+    });
+  });
+
+  $("listele").addEventListener("click", function () {
+    var cikti = [];
+    satirlar.forEach(function (k) {
+      var kod = "";
+      if (k.s.stok.durum === "kabul") kod = k.s.stok.secilen;
+      else if (k.s.stok.durum === "sor") {
+        k.radyolar.forEach(function (r) { if (r.checked) kod = r.value; });
+      }
+      if (!kod) return;
+      var adet = parseInt(k.adetGiris ? k.adetGiris.value : "1", 10);
+      if (isNaN(adet) || adet < 1) adet = 1;
+      cikti.push(kod + "\t" + adet);
+    });
+    $("cikti").value = cikti.join("\n");
+    durumYaz(cikti.length + " kod listelendi.", false);
+  });
+})();
+</script>
+</body>
+</html>
