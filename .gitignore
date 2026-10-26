@@ -66,3 +66,5 @@ __pycache__/
 # müşteri adı/telefonu içeren fiş ölçüm raporları (kişisel veri)
 /cihaz/OLCUM-fisler*.md
 /cihaz/OLCUM-yeni.md
+
+!/docs/

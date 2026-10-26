@@ -129,6 +129,16 @@ class Motor:
                 list(self.tam.predict(isi))
             except Exception as e:
                 log("det ısınma hata", type(e).__name__, str(e)[:120])
+        # [2026-10-26 Claude#HtqxxY] hızlı yön modeli (PP-LCNet_x1_0_doc_ori, ~0,2 sn/sayfa); yoksa eski yon_bul kullanılır
+        self.yon_model = None
+        if YON_MODELI_ACIK:
+            try:
+                from paddleocr import DocImgOrientationClassification
+                self.yon_model = DocImgOrientationClassification(model_name="PP-LCNet_x1_0_doc_ori")
+                list(self.yon_model.predict(np.full((224, 224, 3), 255, np.uint8)))   # ısınma
+            except Exception as e:
+                self.yon_model = None
+                log("yön modeli yüklenemedi, eski yöntem kullanılacak", type(e).__name__, str(e)[:160])
         self.yukleme_ms = int((time.time() - t0) * 1000)
 
     def tani(self, bgr):
@@ -229,6 +239,31 @@ def en_iyi_oku(motor, hucre):
 
 # ---------------------------------------------------------------- görüntü yönü (ön adım)
 YON_ATLAMA_ACIK = False   # bkz. sayfa_oku; 180° sorunu çözülmeden açılmaz
+YON_MODELI_ACIK = True    # [2026-10-26 Claude#HtqxxY] False: hızlı yön modeli kullanılmaz (eski yon_bul)
+YON_MODEL_ESIK = 0.70     # modelin güveni bunun altındaysa eski yon_bul'a düşülür
+SABLON_SATIR_ESIK = 4     # çizgili yol bundan az satır bulursa şablon (başlık) yolu da denenir
+
+
+def yon_bul_hizli(motor, im):
+    """PIL RGB -> (derece, bilgi) ya da None. derece: PIL.rotate(derece, expand=True) ile dikleştirme açısı (yon_bul ile aynı
+    kural; 26.10 denemesi: etiket 270/90 olan fotoğraflar rotate(+etiket) ile 0 oldu). Model yoksa/güven düşükse None."""
+    if not YON_MODELI_ACIK or getattr(motor, "yon_model", None) is None:
+        return None
+    try:
+        if min(im.size) < 32:
+            return None
+        bgr = np.ascontiguousarray(np.asarray(im.convert("RGB"))[:, :, ::-1])
+        for s in motor.yon_model.predict(bgr):
+            d = s if isinstance(s, dict) else getattr(s, "json", {}).get("res", {})
+            ad = (d.get("label_names") or [None])[0]
+            g = float((d.get("scores") or [0.0])[0])
+            if ad is None or g < YON_MODEL_ESIK:
+                return None
+            aci = int(ad) % 360
+            return aci, {"yontem": "model", "etiket": aci, "guven": round(g, 3)}
+    except Exception as e:
+        log("yön modeli hata", type(e).__name__, str(e)[:120])
+    return None
 YON_ESIK = {"kenar": 960, "kalite_yeter": 150.0, "guven_yeter": 0.80, "kazanc": 1.5}
 
 
@@ -267,6 +302,21 @@ def yon_bul(motor, im, esik=None):
     return en, {"karar": "en iyi kalite", "olcum": sonuc}
 
 
+def sablon_dene(motor, im, kodlar, yon_bilgi, W, Hh, neden):
+    """[2026-10-26 Claude#HtqxxY] sablon_oku.py: başlık satırına göre çizgisiz okuma (renk/beden ayrı). Satır yoksa None."""
+    try:
+        import sablon_oku
+        r = sablon_oku.oku(motor, np.asarray(im), kodlar, stok_karar, adet_karar, lev, temizle)
+    except Exception as e:
+        log("sablon hata", type(e).__name__, str(e)[:160])
+        return None
+    if not r or not r[0]:
+        return None
+    liste, ek, bilgi = r
+    return {"yontem": "sablon", "goruntu": {"w": W, "h": Hh}, "satirlar": liste, "yon": yon_bilgi, "tablo": "sablon",
+            "sablon": bilgi, "uyari": [neden + "; form başlığına göre okundu (CNN uzlaşması yok, kabul yalnız birebir kodda)"]}, ek
+
+
 def sayfa_oku(motor, foto, kodlar, en_buyuk=2000, yon_duzelt=True):
     """Dönüş: (yanıt_dict, ölçüm_ek_listesi)."""
     import bolme
@@ -303,7 +353,8 @@ def sayfa_oku(motor, foto, kodlar, en_buyuk=2000, yon_duzelt=True):
                 pass
     if yon_duzelt:
         try:
-            aci_y, yon_bilgi = yon_bul(motor, im)
+            r_ = yon_bul_hizli(motor, im)     # [2026-10-26 Claude#HtqxxY] önce hızlı model, olmazsa eski yöntem
+            aci_y, yon_bilgi = r_ if r_ else yon_bul(motor, im)
             if aci_y:
                 im = im.rotate(aci_y, expand=True)
         except Exception as e:
@@ -316,6 +367,10 @@ def sayfa_oku(motor, foto, kodlar, en_buyuk=2000, yon_duzelt=True):
         try:
             g, satirlar, sutunlar, sonuc = bolme.sayfa_isle(tmp.name)
         except Exception as e:
+            # [2026-10-26 Claude#HtqxxY] çizgi bulunamadı: form şablonu (başlık) yoluyla dene; o da olmazsa eski boş yanıt
+            s_ = sablon_dene(motor, im, kodlar, yon_bilgi, W, Hh, "tablo bulunamadı: " + str(e)[:120])
+            if s_:
+                return s_
             return {"yontem": "sayfa", "goruntu": {"w": W, "h": Hh}, "satirlar": [], "metinler": [], "yon": yon_bilgi,
                     "uyari": ["tablo bulunamadı: " + str(e)[:120]]}, []
     finally:
@@ -431,6 +486,12 @@ def sayfa_oku(motor, foto, kodlar, en_buyuk=2000, yon_duzelt=True):
     while liste and ek[-1]["adet_murekkep"] < 15 and sum(c.isdigit() for c in liste[-1]["stok"]["ham"]) < 3:
         liste.pop(); ek.pop()
         uyari.append("tablo altı satır atıldı")
+    if len(liste) < SABLON_SATIR_ESIK:
+        # [2026-10-26 Claude#HtqxxY] çizgili yol hiç ya da çok az satır buldu (y5-02: 6 satırın yalnız son 2'si): şablon yolunu dene,
+        # daha çok satır okuyan sonucu al (eksik satırın sessizce düşmesini önler)
+        s_ = sablon_dene(motor, im, kodlar, yon_bilgi, W, Hh, "çizgili tablo %d satır buldu" % len(liste))
+        if s_ and len(s_[0]["satirlar"]) > len(liste):
+            return s_
     return {"yontem": "sayfa+hucre", "goruntu": {"w": int(W_), "h": int(H_)}, "satirlar": liste, "uyari": uyari, "yon": yon_bilgi, "tablo": bolme.SON["yol"]}, ek
 
 

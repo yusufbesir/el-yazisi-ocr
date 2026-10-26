@@ -1,0 +1,823 @@
+{
+ "foto": "ornekler\\yeni\\tutanak-3.jpg",
+ "ozet": {
+  "kod_dogru": 6,
+  "kodlu": 7,
+  "kabul_dogru": 1,
+  "yanlis_kabul": 0,
+  "sor": 7,
+  "adet_dogru": 3,
+  "sure_s": 53.04
+ },
+ "satirlar": [
+  {
+   "sira": 1,
+   "dogru": "T12631",
+   "sayfa": [
+    "1T12631",
+    0.943292498588562
+   ],
+   "gri": null,
+   "temiz": null,
+   "kaynak": "sayfa",
+   "secilen": "T12631",
+   "d1": 1,
+   "d2": 2,
+   "guven": 0.943,
+   "durum": "sor",
+   "dogru_mu": "evet",
+   "adet": {
+    "ham": "1",
+    "deger": 1,
+    "guven": 0.77,
+    "durum": "kabul",
+    "kaynak": "hucre",
+    "cnn": {
+     "deger": 1,
+     "guven": 0.988
+    },
+    "uzlasma": true
+   }
+  },
+  {
+   "sira": 2,
+   "dogru": "T20062-01",
+   "sayfa": [
+    "220062-01",
+    0.998408317565918
+   ],
+   "gri": null,
+   "temiz": null,
+   "kaynak": "sayfa",
+   "secilen": "T20062-01",
+   "d1": 1,
+   "d2": 2,
+   "guven": 0.998,
+   "durum": "sor",
+   "dogru_mu": "evet",
+   "adet": {
+    "ham": "1",
+    "deger": 1,
+    "guven": 0.282,
+    "durum": "sor",
+    "kaynak": "hucre",
+    "cnn": {
+     "deger": 11,
+     "guven": 0.803
+    },
+    "uzlasma": false
+   }
+  },
+  {
+   "sira": 3,
+   "dogru": "",
+   "sayfa": [
+    "Leciregular",
+    0.9282113909721375
+   ],
+   "gri": [
+    "ciregu",
+    0.7107869982719421
+   ],
+   "temiz": [
+    "CIREGU",
+    0.5697870850563049
+   ],
+   "kaynak": "hucre",
+   "secilen": "T5160",
+   "d1": 1,
+   "d2": 1,
+   "guven": 0.711,
+   "durum": "sor",
+   "dogru_mu": "kod yok (sor/bos: iyi)",
+   "adet": {
+    "ham": "1",
+    "deger": 1,
+    "guven": 0.59,
+    "durum": "sor",
+    "kaynak": "hucre",
+    "cnn": {
+     "deger": 11,
+     "guven": 0.739
+    },
+    "uzlasma": false
+   }
+  },
+  {
+   "sira": 4,
+   "dogru": "T10309",
+   "sayfa": [
+    "10309",
+    0.9883232116699219
+   ],
+   "gri": null,
+   "temiz": null,
+   "kaynak": "sayfa",
+   "secilen": "T10309",
+   "d1": 0,
+   "d2": 1,
+   "guven": 0.988,
+   "durum": "kabul",
+   "dogru_mu": "evet",
+   "adet": {
+    "ham": "1",
+    "deger": 1,
+    "guven": 1.0,
+    "durum": "sor",
+    "kaynak": "sayfa",
+    "cnn": {
+     "deger": 11,
+     "guven": 0.937
+    },
+    "uzlasma": false
+   }
+  },
+  {
+   "sira": 5,
+   "dogru": "T14594",
+   "sayfa": [
+    "i45gh",
+    0.7291925549507141
+   ],
+   "gri": null,
+   "temiz": null,
+   "kaynak": "sayfa",
+   "secilen": "T10456",
+   "d1": 1,
+   "d2": 1,
+   "guven": 0.729,
+   "durum": "sor",
+   "dogru_mu": "HAYIR",
+   "adet": {
+    "ham": "1",
+    "deger": 1,
+    "guven": 0.999,
+    "durum": "kabul",
+    "kaynak": "sayfa",
+    "cnn": {
+     "deger": 1,
+     "guven": 0.955
+    },
+    "uzlasma": true
+   }
+  },
+  {
+   "sira": 6,
+   "dogru": "T20163-07",
+   "sayfa": [
+    "20163-07",
+    0.9983976483345032
+   ],
+   "gri": null,
+   "temiz": null,
+   "kaynak": "sayfa",
+   "secilen": "T20163-07",
+   "d1": 0,
+   "d2": 1,
+   "guven": 0.998,
+   "durum": "sor",
+   "dogru_mu": "evet",
+   "adet": {
+    "ham": "1",
+    "deger": 1,
+    "guven": 1.0,
+    "durum": "sor",
+    "kaynak": "sayfa",
+    "cnn": {
+     "deger": 17,
+     "guven": 0.58
+    },
+    "uzlasma": false
+   }
+  },
+  {
+   "sira": 7,
+   "dogru": "T14408",
+   "sayfa": [
+    "14408",
+    0.9021867513656616
+   ],
+   "gri": null,
+   "temiz": null,
+   "kaynak": "sayfa",
+   "secilen": "T14408",
+   "d1": 0,
+   "d2": 1,
+   "guven": 0.902,
+   "durum": "sor",
+   "dogru_mu": "evet",
+   "adet": {
+    "ham": "1",
+    "deger": 1,
+    "guven": 0.996,
+    "durum": "kabul",
+    "kaynak": "sayfa",
+    "cnn": {
+     "deger": 1,
+     "guven": 0.986
+    },
+    "uzlasma": true
+   }
+  },
+  {
+   "sira": 8,
+   "dogru": "T13881",
+   "sayfa": [
+    "13881",
+    0.9990270733833313
+   ],
+   "gri": null,
+   "temiz": null,
+   "kaynak": "sayfa",
+   "secilen": "T13881",
+   "d1": 0,
+   "d2": 1,
+   "guven": 0.999,
+   "durum": "sor",
+   "dogru_mu": "evet",
+   "adet": {
+    "ham": "1",
+    "deger": 1,
+    "guven": 0.204,
+    "durum": "sor",
+    "kaynak": "hucre",
+    "cnn": {
+     "deger": 11,
+     "guven": 0.488
+    },
+    "uzlasma": false
+   }
+  }
+ ],
+ "yanit": {
+  "yontem": "sayfa+hucre",
+  "goruntu": {
+   "w": 1420,
+   "h": 2000
+  },
+  "satirlar": [
+   {
+    "sira": 1,
+    "kaynak": "sayfa",
+    "stok": {
+     "ham": "1T12631",
+     "secilen": "T12631",
+     "aday": [
+      {
+       "kod": "T12631",
+       "mesafe": 1
+      },
+      {
+       "kod": "T10631",
+       "mesafe": 2
+      },
+      {
+       "kod": "T11231",
+       "mesafe": 2
+      },
+      {
+       "kod": "T12521",
+       "mesafe": 3,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T12121",
+       "mesafe": 3,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T11521",
+       "mesafe": 4,
+       "kaynak": "cnn"
+      }
+     ],
+     "guven": 0.943,
+     "durum": "sor",
+     "kaynak": "sayfa",
+     "cnn": {
+      "secilen": "T12521",
+      "guven": 0.771
+     },
+     "uzlasma": false
+    },
+    "adet": {
+     "ham": "1",
+     "deger": 1,
+     "guven": 0.77,
+     "durum": "kabul",
+     "kaynak": "hucre",
+     "cnn": {
+      "deger": 1,
+      "guven": 0.988
+     },
+     "uzlasma": true
+    },
+    "hucreKutusu": [
+     196,
+     961,
+     373,
+     996
+    ],
+    "adetKutusu": [
+     797,
+     961,
+     891,
+     996
+    ]
+   },
+   {
+    "sira": 2,
+    "kaynak": "sayfa",
+    "stok": {
+     "ham": "220062-01",
+     "secilen": "T20062-01",
+     "aday": [
+      {
+       "kod": "T20062-01",
+       "mesafe": 1
+      },
+      {
+       "kod": "T20002-01",
+       "mesafe": 2
+      },
+      {
+       "kod": "T20012-01",
+       "mesafe": 2
+      },
+      {
+       "kod": "T6501",
+       "mesafe": 6,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T6701",
+       "mesafe": 6,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T6201",
+       "mesafe": 5,
+       "kaynak": "cnn"
+      }
+     ],
+     "guven": 0.998,
+     "durum": "sor",
+     "kaynak": "sayfa",
+     "cnn": {
+      "secilen": "T6501",
+      "guven": 0.206
+     },
+     "uzlasma": false
+    },
+    "adet": {
+     "ham": "1",
+     "deger": 1,
+     "guven": 0.282,
+     "durum": "sor",
+     "kaynak": "hucre",
+     "cnn": {
+      "deger": 11,
+      "guven": 0.803
+     },
+     "uzlasma": false
+    },
+    "hucreKutusu": [
+     196,
+     1010,
+     373,
+     1044
+    ],
+    "adetKutusu": [
+     797,
+     1010,
+     891,
+     1044
+    ]
+   },
+   {
+    "sira": 3,
+    "kaynak": "hucre",
+    "stok": {
+     "ham": "ciregu",
+     "secilen": "T5160",
+     "aday": [
+      {
+       "kod": "T5160",
+       "mesafe": 1
+      },
+      {
+       "kod": "T6160",
+       "mesafe": 1
+      },
+      {
+       "kod": "T7160",
+       "mesafe": 1
+      },
+      {
+       "kod": "T15230-28",
+       "mesafe": 6,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T15232-10",
+       "mesafe": 6,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T15239-02",
+       "mesafe": 6,
+       "kaynak": "cnn"
+      }
+     ],
+     "guven": 0.711,
+     "durum": "sor",
+     "kaynak": "hucre",
+     "cnn": {
+      "secilen": "T15230-28",
+      "guven": 0.122
+     },
+     "uzlasma": false
+    },
+    "adet": {
+     "ham": "1",
+     "deger": 1,
+     "guven": 0.59,
+     "durum": "sor",
+     "kaynak": "hucre",
+     "cnn": {
+      "deger": 11,
+      "guven": 0.739
+     },
+     "uzlasma": false
+    },
+    "hucreKutusu": [
+     196,
+     1058,
+     373,
+     1092
+    ],
+    "adetKutusu": [
+     797,
+     1058,
+     891,
+     1092
+    ]
+   },
+   {
+    "sira": 4,
+    "kaynak": "sayfa",
+    "stok": {
+     "ham": "10309",
+     "secilen": "T10309",
+     "aday": [
+      {
+       "kod": "T10309",
+       "mesafe": 0
+      },
+      {
+       "kod": "T10009",
+       "mesafe": 1
+      },
+      {
+       "kod": "T10109",
+       "mesafe": 1
+      },
+      {
+       "kod": "T10304",
+       "mesafe": 1,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T10329",
+       "mesafe": 1,
+       "kaynak": "cnn"
+      }
+     ],
+     "guven": 0.988,
+     "durum": "kabul",
+     "kaynak": "sayfa",
+     "cnn": {
+      "secilen": "T10309",
+      "guven": 0.727
+     },
+     "uzlasma": true
+    },
+    "adet": {
+     "ham": "1",
+     "deger": 1,
+     "guven": 1.0,
+     "durum": "sor",
+     "kaynak": "sayfa",
+     "cnn": {
+      "deger": 11,
+      "guven": 0.937
+     },
+     "uzlasma": false
+    },
+    "hucreKutusu": [
+     196,
+     1106,
+     373,
+     1140
+    ],
+    "adetKutusu": [
+     797,
+     1106,
+     891,
+     1140
+    ]
+   },
+   {
+    "sira": 5,
+    "kaynak": "sayfa",
+    "stok": {
+     "ham": "i45gh",
+     "secilen": "T10456",
+     "aday": [
+      {
+       "kod": "T10456",
+       "mesafe": 1
+      },
+      {
+       "kod": "T11456",
+       "mesafe": 1
+      },
+      {
+       "kod": "T12456",
+       "mesafe": 1
+      },
+      {
+       "kod": "T10201",
+       "mesafe": 4,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T10261",
+       "mesafe": 3,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T10401",
+       "mesafe": 3,
+       "kaynak": "cnn"
+      }
+     ],
+     "guven": 0.729,
+     "durum": "sor",
+     "kaynak": "sayfa",
+     "cnn": {
+      "secilen": "T10201",
+      "guven": 0.372
+     },
+     "uzlasma": false
+    },
+    "adet": {
+     "ham": "1",
+     "deger": 1,
+     "guven": 0.999,
+     "durum": "kabul",
+     "kaynak": "sayfa",
+     "cnn": {
+      "deger": 1,
+      "guven": 0.955
+     },
+     "uzlasma": true
+    },
+    "hucreKutusu": [
+     196,
+     1154,
+     373,
+     1188
+    ],
+    "adetKutusu": [
+     797,
+     1154,
+     891,
+     1188
+    ]
+   },
+   {
+    "sira": 6,
+    "kaynak": "sayfa",
+    "stok": {
+     "ham": "20163-07",
+     "secilen": "T20163-07",
+     "aday": [
+      {
+       "kod": "T20163-07",
+       "mesafe": 0
+      },
+      {
+       "kod": "T20161-07",
+       "mesafe": 1
+      },
+      {
+       "kod": "T20162-07",
+       "mesafe": 1
+      },
+      {
+       "kod": "T13407",
+       "mesafe": 4,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T13307",
+       "mesafe": 4,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T13207",
+       "mesafe": 4,
+       "kaynak": "cnn"
+      }
+     ],
+     "guven": 0.998,
+     "durum": "sor",
+     "kaynak": "sayfa",
+     "cnn": {
+      "secilen": "T13407",
+      "guven": 0.637
+     },
+     "uzlasma": false
+    },
+    "adet": {
+     "ham": "1",
+     "deger": 1,
+     "guven": 1.0,
+     "durum": "sor",
+     "kaynak": "sayfa",
+     "cnn": {
+      "deger": 17,
+      "guven": 0.58
+     },
+     "uzlasma": false
+    },
+    "hucreKutusu": [
+     196,
+     1202,
+     373,
+     1235
+    ],
+    "adetKutusu": [
+     797,
+     1202,
+     891,
+     1235
+    ]
+   },
+   {
+    "sira": 7,
+    "kaynak": "sayfa",
+    "stok": {
+     "ham": "14408",
+     "secilen": "T14408",
+     "aday": [
+      {
+       "kod": "T14408",
+       "mesafe": 0
+      },
+      {
+       "kod": "T11408",
+       "mesafe": 1
+      },
+      {
+       "kod": "T12408",
+       "mesafe": 1
+      },
+      {
+       "kod": "T14428",
+       "mesafe": 1,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T14478",
+       "mesafe": 1,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T14458",
+       "mesafe": 1,
+       "kaynak": "cnn"
+      }
+     ],
+     "guven": 0.902,
+     "durum": "sor",
+     "kaynak": "sayfa",
+     "cnn": {
+      "secilen": "T14428",
+      "guven": 0.369
+     },
+     "uzlasma": false
+    },
+    "adet": {
+     "ham": "1",
+     "deger": 1,
+     "guven": 0.996,
+     "durum": "kabul",
+     "kaynak": "sayfa",
+     "cnn": {
+      "deger": 1,
+      "guven": 0.986
+     },
+     "uzlasma": true
+    },
+    "hucreKutusu": [
+     196,
+     1249,
+     373,
+     1283
+    ],
+    "adetKutusu": [
+     797,
+     1249,
+     891,
+     1283
+    ]
+   },
+   {
+    "sira": 8,
+    "kaynak": "sayfa",
+    "stok": {
+     "ham": "13881",
+     "secilen": "T13881",
+     "aday": [
+      {
+       "kod": "T13881",
+       "mesafe": 0
+      },
+      {
+       "kod": "T10881",
+       "mesafe": 1
+      },
+      {
+       "kod": "T11881",
+       "mesafe": 1
+      },
+      {
+       "kod": "T14241",
+       "mesafe": 3,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T14341",
+       "mesafe": 3,
+       "kaynak": "cnn"
+      },
+      {
+       "kod": "T14281",
+       "mesafe": 2,
+       "kaynak": "cnn"
+      }
+     ],
+     "guven": 0.999,
+     "durum": "sor",
+     "kaynak": "sayfa",
+     "cnn": {
+      "secilen": "T14241",
+      "guven": 0.34
+     },
+     "uzlasma": false
+    },
+    "adet": {
+     "ham": "1",
+     "deger": 1,
+     "guven": 0.204,
+     "durum": "sor",
+     "kaynak": "hucre",
+     "cnn": {
+      "deger": 11,
+      "guven": 0.488
+     },
+     "uzlasma": false
+    },
+    "hucreKutusu": [
+     196,
+     1297,
+     373,
+     1331
+    ],
+    "adetKutusu": [
+     797,
+     1297,
+     891,
+     1331
+    ]
+   }
+  ],
+  "uyari": [
+   "tablo altı satır atıldı",
+   "tablo altı satır atıldı"
+  ],
+  "yon": {
+   "karar": "0 yeterli",
+   "olcum": {
+    "0": {
+     "kalite": 793.4,
+     "ort_guven": 0.947,
+     "madde": 75
+    }
+   }
+  },
+  "tablo": "eski"
+ }
+}

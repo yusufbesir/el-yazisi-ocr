@@ -74,3 +74,10 @@ degistirme: yalnız bu iş parçacığı (devralan başlık devam edebilir, etik
 - Yeni veri: nist-sd19, cvl-digit-strings, ardis (KAYNAK-EK Ek 8). Kayıt isteyen sayfalar Claude tarayıcısında açıldı (GNHK, Kaggle A-Z, CVL, Kaggle Türkçe arama).
 - Ek zip kopyaları Yusuf isteğiyle Geri Dönüşüm Kutusu'na (1,24 GB).
 - Açık: 180° yön denetimi (atlama kapalı); varsayılan model kararı (Yusuf); fisler/tutanak-3 doğru değer teyidi; Paddle çıktısına Türkçe imla düzeltmesi denemesi (öneri).
+
+## 11:35 durum — [Claude#HtqxxY]
+- Devam eğitimi bitti: kod 40 tur (seçim puanı 0,963), harf 90 tur. Yeni kod modeli: gerçek kırpıntı t1 60/64, t3 11/19, yeni3 29/30; ayrı küme YK 3/600 (eski 21), liste-dışı 7/300 (eski 2).
+- Motor, teyitli belgeler (egitim\gece\sabah2): t1 eski/yeni 7/8, kabul 5/5, YK 0/0, adet 4→5; t3 6/7, kabul 0→1, YK 0. yeni5 sponsorluk tutanakları (y5-03..07): TABLO BULUNAMIYOR, 0 satır (form şablonu tanımsız). Süre 53-59 sn (yön atlama kapalı).
+- Teyitli: ornekler\tutanak-1.teyitli.json, yeni\tutanak-3.teyitli.json, yeni2\fisler.teyitli.json, yeni5\yeni5.teyitli.json (+ y5-0x.dogru.json).
+- Depo: yusufbesir/el-yazisi-ocr main b5c23d5. TEZDENEME not kopyası scratchpad\tez dalında hazır, push izin denetiminde durdu; Yusuf onayı bekleniyor.
+- Sıradaki öneri: sponsorluk formu tablo bulucusu; 180° yön denetimi; varsayılan model kararı Yusuf'ta (henüz eski).
